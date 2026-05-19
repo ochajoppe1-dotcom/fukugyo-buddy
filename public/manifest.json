@@ -1,0 +1,26 @@
+{
+  "name": "副業バディAI - あなたの副業を、AIが伴走します",
+  "short_name": "副業バディAI",
+  "description": "副業のLP診断、AI相談、副業日記まで。副業詐欺被害者本人が運営する、AI完結の副業安全パートナー。",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FFFFFF",
+  "theme_color": "#10B981",
+  "lang": "ja",
+  "categories": ["productivity", "finance", "education"],
+  "icons": [
+    {
+      "src": "/icons/icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
