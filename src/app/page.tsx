@@ -135,7 +135,7 @@ export default function Home() {
       </section>
 
       {/* Features */}
-      <section className="px-6 py-16 bg-gray-50 border-y border-gray-100">
+      <section className="px-6 py-16 bg-white border-y border-gray-100">
         <div className="max-w-5xl mx-auto">
           <h2 className="text-center text-2xl font-bold text-gray-900 mb-2">
             副業ライフサイクル、まるごと伴走

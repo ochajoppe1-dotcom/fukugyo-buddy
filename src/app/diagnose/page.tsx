@@ -24,7 +24,7 @@ export default function DiagnosePage() {
         </div>
       </header>
 
-      <section className="flex-1 flex flex-col bg-gray-50">
+      <section className="flex-1 flex flex-col">
         <DiagnoseChat />
       </section>
     </main>
