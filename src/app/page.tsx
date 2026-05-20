@@ -141,7 +141,7 @@ export default function Home() {
             副業ライフサイクル、まるごと伴走
           </h2>
           <p className="text-center text-gray-500 text-sm mb-12">
-            4つの機能で、あなたの副業を最初から最後まで。
+            4つの機能で、あなたの副業をサポート。
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {features.map((feature) => (
