@@ -105,12 +105,12 @@ export default function DiagnoseChat() {
             <div
               className={`max-w-[85%] rounded-2xl px-4 py-3 ${
                 msg.role === "user"
-                  ? "bg-[#1E40AF] text-white"
+                  ? "bg-emerald-600 text-white"
                   : "bg-white border border-gray-200 text-gray-800"
               }`}
             >
               {msg.role === "assistant" && (
-                <div className="flex items-center gap-2 mb-1 text-xs text-[#10B981] font-bold">
+                <div className="flex items-center gap-2 mb-1 text-xs text-emerald-600 font-bold">
                   <span>🤝</span>
                   <span>副業バディAI</span>
                 </div>
@@ -125,9 +125,9 @@ export default function DiagnoseChat() {
           <div className="flex justify-start">
             <div className="bg-white border border-gray-200 rounded-2xl px-4 py-3">
               <div className="flex items-center gap-2 text-sm text-gray-500">
-                <span className="inline-block w-2 h-2 bg-[#10B981] rounded-full animate-pulse"></span>
-                <span className="inline-block w-2 h-2 bg-[#10B981] rounded-full animate-pulse delay-100"></span>
-                <span className="inline-block w-2 h-2 bg-[#10B981] rounded-full animate-pulse delay-200"></span>
+                <span className="inline-block w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
+                <span className="inline-block w-2 h-2 bg-emerald-500 rounded-full animate-pulse delay-100"></span>
+                <span className="inline-block w-2 h-2 bg-emerald-500 rounded-full animate-pulse delay-200"></span>
                 <span className="ml-1">考えています...</span>
               </div>
             </div>
@@ -136,8 +136,8 @@ export default function DiagnoseChat() {
 
         {/* 診断結果カード */}
         {result && (
-          <div className="bg-gradient-to-br from-white to-gray-50 border-2 border-[#10B981] rounded-2xl p-5 shadow-lg">
-            <h3 className="text-lg font-bold text-[#1E3A8A] mb-3 flex items-center gap-2">
+          <div className="bg-gradient-to-br from-white to-gray-50 border-2 border-emerald-200 rounded-2xl p-5 shadow-lg">
+            <h3 className="text-lg font-bold text-gray-900 mb-3 flex items-center gap-2">
               <span>📊</span> 診断結果
             </h3>
             {/* 危険度バー */}
@@ -195,8 +195,8 @@ export default function DiagnoseChat() {
               </div>
             )}
             {/* 推奨アクション */}
-            <div className="bg-[#F0FDF4] border border-[#10B981] rounded-xl p-3">
-              <h4 className="text-sm font-bold text-[#10B981] mb-1">
+            <div className="bg-emerald-50 border border-emerald-100 rounded-xl p-3">
+              <h4 className="text-sm font-bold text-emerald-600 mb-1">
                 💡 おすすめアクション
               </h4>
               <p className="text-sm text-gray-700 leading-relaxed">
@@ -213,7 +213,7 @@ export default function DiagnoseChat() {
       {result ? (
         <button
           onClick={reset}
-          className="w-full bg-[#10B981] text-white py-3 rounded-2xl font-bold hover:bg-[#34D399] transition-colors"
+          className="w-full bg-emerald-600 text-white py-3 rounded-xl font-medium hover:bg-emerald-700 transition-colors"
         >
           🔄 別の教材を診断する
         </button>
@@ -225,12 +225,12 @@ export default function DiagnoseChat() {
             onChange={(e) => setInput(e.target.value)}
             placeholder="メッセージを入力..."
             disabled={loading}
-            className="flex-1 border border-gray-300 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:border-[#10B981] disabled:bg-gray-100"
+            className="flex-1 border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-emerald-500 disabled:bg-gray-100"
           />
           <button
             type="submit"
             disabled={loading || !input.trim()}
-            className="bg-[#10B981] text-white px-6 py-3 rounded-2xl font-bold disabled:opacity-50 hover:bg-[#34D399] transition-colors"
+            className="bg-emerald-600 text-white px-6 py-3 rounded-xl font-medium disabled:opacity-50 hover:bg-emerald-700 transition-colors"
           >
             送信
           </button>

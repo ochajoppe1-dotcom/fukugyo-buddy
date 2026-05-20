@@ -1,37 +1,86 @@
 import Link from "next/link";
 
+// シンプルな線アイコン（Lucide風）
+function IconShield() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+      <path d="m9 12 2 2 4-4" />
+    </svg>
+  );
+}
+function IconMessage() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />
+    </svg>
+  );
+}
+function IconBook() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20" />
+    </svg>
+  );
+}
+function IconCompass() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="10" />
+      <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" />
+    </svg>
+  );
+}
+
 const features = [
   {
     href: "/diagnose",
-    emoji: "🛡",
+    icon: <IconShield />,
     title: "LP診断",
-    description: "副業教材LPの危険度をAIが判定",
-    color: "from-[#10B981] to-[#34D399]",
-    label: "始める前",
+    description: "副業教材の販売ページを、AIが対話形式で診断",
+    label: "始める前に",
   },
   {
     href: "/chat",
-    emoji: "💬",
+    icon: <IconMessage />,
     title: "AI相談",
-    description: "副業の悩みを24時間チャット相談",
-    color: "from-[#1E40AF] to-[#3B82F6]",
-    label: "困った時",
+    description: "副業の悩みを、24時間いつでもチャットで相談",
+    label: "困った時に",
   },
   {
     href: "/diary",
-    emoji: "📔",
+    icon: <IconBook />,
     title: "副業日記",
-    description: "売上・経費・時間を記録、AIが進捗分析",
-    color: "from-[#10B981] to-[#34D399]",
-    label: "実践中",
+    description: "売上・経費・時間を記録。AIが進捗を分析",
+    label: "実践中に",
   },
   {
     href: "/assessment",
-    emoji: "🧭",
+    icon: <IconCompass />,
     title: "適性診断",
-    description: "あなたに向いてる副業をAIが提案",
-    color: "from-[#1E40AF] to-[#3B82F6]",
-    label: "迷い中",
+    description: "15の質問で、あなたに向いた副業をAIが提案",
+    label: "迷った時に",
+  },
+];
+
+const plans = [
+  {
+    name: "Free",
+    price: "0",
+    features: ["LP診断 月3回", "AI相談 月3回", "適性診断 1回"],
+    highlight: false,
+  },
+  {
+    name: "Standard",
+    price: "550",
+    features: ["LP診断 無制限", "AI相談 月20回", "副業日記", "詐欺アラート 週1"],
+    highlight: true,
+  },
+  {
+    name: "Premium",
+    price: "990",
+    features: ["Standardの全機能", "AI相談 月100回", "進捗AI分析", "緊急時テンプレ生成"],
+    highlight: false,
   },
 ];
 
@@ -39,113 +88,166 @@ export default function Home() {
   return (
     <main className="flex-1 flex flex-col">
       {/* Header */}
-      <header className="bg-gradient-to-r from-[#10B981] to-[#1E40AF] text-white px-6 py-10 shadow-lg">
-        <div className="max-w-4xl mx-auto">
-          <div className="flex items-center gap-3 mb-3">
-            <span className="text-4xl">🤝</span>
-            <h1 className="text-3xl font-bold">
-              副業バディ<span className="text-yellow-300">AI</span>
-            </h1>
+      <header className="border-b border-gray-100">
+        <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-lg bg-emerald-600 flex items-center justify-center text-white">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+            </div>
+            <span className="font-semibold text-gray-900 text-lg">
+              副業バディAI
+            </span>
           </div>
-          <p className="text-base text-white/90 mb-2">
-            あなたの副業を、AIが伴走します。
-          </p>
-          <p className="text-xs text-white/70">
-            副業詐欺被害者本人が運営する、AI完結の副業安全パートナー
-          </p>
         </div>
       </header>
 
       {/* Hero */}
-      <section className="bg-gradient-to-b from-[#F0FDF4] to-white px-6 py-10">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-2xl md:text-3xl font-bold text-[#1E3A8A] mb-3">
+      <section className="px-6 py-20 md:py-28">
+        <div className="max-w-3xl mx-auto text-center">
+          <p className="text-emerald-600 text-sm font-medium mb-4">
+            副業詐欺被害者本人が運営
+          </p>
+          <h1 className="text-3xl md:text-5xl font-bold text-gray-900 leading-tight mb-5">
+            あなたの副業を、
+            <br />
+            AIが伴走します。
+          </h1>
+          <p className="text-gray-500 text-base md:text-lg leading-relaxed mb-8">
+            始める前のチェックから、実践中の悩み相談、進捗管理まで。
+            <br className="hidden md:block" />
+            副業の全ステップを、AIがそっと支えます。
+          </p>
+          <Link
+            href="/diagnose"
+            className="inline-flex items-center gap-2 bg-emerald-600 text-white px-7 py-3.5 rounded-xl font-medium hover:bg-emerald-700 transition-colors"
+          >
+            無料でLP診断を試す
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </Link>
+        </div>
+      </section>
+
+      {/* Features */}
+      <section className="px-6 py-16 bg-gray-50 border-y border-gray-100">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-center text-2xl font-bold text-gray-900 mb-2">
             副業ライフサイクル、まるごと伴走
           </h2>
-          <p className="text-gray-700 text-base">
-            始める前のチェック、実践中の悩み相談、
-            <br />
-            進捗管理まで、AIが24時間サポート。
+          <p className="text-center text-gray-500 text-sm mb-12">
+            4つの機能で、あなたの副業を最初から最後まで。
           </p>
-        </div>
-      </section>
-
-      {/* Features Grid */}
-      <section className="flex-1 px-6 py-10 bg-white">
-        <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-4">
-          {features.map((feature) => (
-            <Link
-              key={feature.href}
-              href={feature.href}
-              className={`block rounded-2xl p-6 text-white shadow-lg bg-gradient-to-br ${feature.color} hover:scale-[1.02] transition-transform`}
-            >
-              <div className="flex items-center justify-between mb-3">
-                <div className="text-5xl">{feature.emoji}</div>
-                <span className="text-xs bg-white/20 px-2 py-1 rounded-full">
-                  {feature.label}
-                </span>
-              </div>
-              <h3 className="text-xl font-bold mb-2">{feature.title}</h3>
-              <p className="text-sm opacity-90">{feature.description}</p>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      {/* Pricing Preview */}
-      <section className="bg-gradient-to-br from-[#F0FDF4] to-[#EFF6FF] px-6 py-10">
-        <div className="max-w-4xl mx-auto">
-          <h3 className="text-xl font-bold text-[#1E3A8A] text-center mb-6">
-            シンプル＆お手頃な料金
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="bg-white rounded-2xl p-5 shadow border-2 border-gray-200">
-              <h4 className="font-bold text-gray-700 mb-2">Free</h4>
-              <p className="text-3xl font-bold text-[#10B981] mb-3">¥0</p>
-              <ul className="text-xs text-gray-600 space-y-1">
-                <li>• LP診断 月3回</li>
-                <li>• AI相談 月3回</li>
-                <li>• 適性診断 1回</li>
-              </ul>
-            </div>
-            <div className="bg-white rounded-2xl p-5 shadow border-2 border-[#10B981]">
-              <div className="text-xs text-[#10B981] font-bold mb-1">おすすめ</div>
-              <h4 className="font-bold text-gray-700 mb-2">Standard</h4>
-              <p className="text-3xl font-bold text-[#10B981] mb-3">
-                ¥550<span className="text-sm font-normal">/月</span>
-              </p>
-              <ul className="text-xs text-gray-600 space-y-1">
-                <li>• LP診断 無制限</li>
-                <li>• AI相談 月20回</li>
-                <li>• 副業日記</li>
-                <li>• 詐欺アラート 週1</li>
-              </ul>
-            </div>
-            <div className="bg-white rounded-2xl p-5 shadow border-2 border-[#1E40AF]">
-              <h4 className="font-bold text-gray-700 mb-2">Premium</h4>
-              <p className="text-3xl font-bold text-[#1E40AF] mb-3">
-                ¥990<span className="text-sm font-normal">/月</span>
-              </p>
-              <ul className="text-xs text-gray-600 space-y-1">
-                <li>• Standardの全機能</li>
-                <li>• AI相談 月100回</li>
-                <li>• 進捗AI分析</li>
-                <li>• 緊急時テンプレ生成</li>
-              </ul>
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {features.map((feature) => (
+              <Link
+                key={feature.href}
+                href={feature.href}
+                className="group bg-white rounded-2xl p-6 border border-gray-100 hover:border-emerald-200 hover:shadow-sm transition-all"
+              >
+                <div className="flex items-start gap-4">
+                  <div className="w-11 h-11 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center flex-shrink-0 group-hover:bg-emerald-100 transition-colors">
+                    {feature.icon}
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-1">
+                      <h3 className="font-semibold text-gray-900">
+                        {feature.title}
+                      </h3>
+                      <span className="text-xs text-gray-400">
+                        {feature.label}
+                      </span>
+                    </div>
+                    <p className="text-sm text-gray-500 leading-relaxed">
+                      {feature.description}
+                    </p>
+                  </div>
+                </div>
+              </Link>
+            ))}
           </div>
-          <p className="text-xs text-gray-500 text-center mt-4">
-            ※ 課金プランは初回7日間無料 / いつでもワンクリック解約
+        </div>
+      </section>
+
+      {/* Pricing */}
+      <section className="px-6 py-16">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-center text-2xl font-bold text-gray-900 mb-2">
+            シンプルで、お手頃な料金
+          </h2>
+          <p className="text-center text-gray-500 text-sm mb-12">
+            価値あるものを、安く、誠実に。
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {plans.map((plan) => (
+              <div
+                key={plan.name}
+                className={`rounded-2xl p-6 border ${
+                  plan.highlight
+                    ? "border-emerald-300 bg-emerald-50/30 relative"
+                    : "border-gray-100"
+                }`}
+              >
+                {plan.highlight && (
+                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-emerald-600 text-white text-xs px-3 py-1 rounded-full">
+                    おすすめ
+                  </span>
+                )}
+                <h3 className="font-semibold text-gray-900 mb-1">
+                  {plan.name}
+                </h3>
+                <div className="flex items-baseline gap-1 mb-5">
+                  <span className="text-3xl font-bold text-gray-900">
+                    ¥{plan.price}
+                  </span>
+                  {plan.price !== "0" && (
+                    <span className="text-sm text-gray-400">/月</span>
+                  )}
+                </div>
+                <ul className="space-y-2">
+                  {plan.features.map((f, i) => (
+                    <li
+                      key={i}
+                      className="flex items-center gap-2 text-sm text-gray-600"
+                    >
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="text-emerald-500 flex-shrink-0"
+                      >
+                        <path d="M20 6 9 17l-5-5" />
+                      </svg>
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+          <p className="text-xs text-gray-400 text-center mt-6">
+            課金プランは初回7日間無料 ／ いつでもワンクリックで解約できます
           </p>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="bg-[#1E3A8A] text-white/70 text-center text-xs py-6 px-6">
-        <p>© 2026 副業バディAI — 副業詐欺被害者本人が運営</p>
-        <p className="mt-1 text-white/50">
-          価値あるものを安く、誠実に。
-        </p>
+      <footer className="border-t border-gray-100 px-6 py-8">
+        <div className="max-w-5xl mx-auto text-center">
+          <p className="text-sm text-gray-400">
+            © 2026 副業バディAI
+          </p>
+          <p className="text-xs text-gray-300 mt-1">
+            副業詐欺被害者本人が、同じ被害を生まないために。
+          </p>
+        </div>
       </footer>
     </main>
   );
