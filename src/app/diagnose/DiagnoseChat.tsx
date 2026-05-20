@@ -17,7 +17,7 @@ type DiagnoseResult = {
 const INITIAL_MESSAGE: Message = {
   role: "assistant",
   content:
-    "こんにちは。副業バディAIです🤝\n\n気になっている副業教材・情報商材のLP（販売ページ）を一緒に診断しましょう。\n\nまずは、教材の **URL または タイトル/販売者名** を教えてください。\n\n（例：https://〇〇.com / 〇〇式中国輸入講座 など）",
+    "こんにちは。副業バディAIです。\n\n気になっている副業教材・情報商材のLP（販売ページ）を一緒に診断しましょう。\n\nまずは、教材の URL または タイトル/販売者名 を教えてください。\n\n（例：https://〇〇.com / 〇〇式中国輸入講座 など）",
 };
 
 export default function DiagnoseChat() {
@@ -110,8 +110,10 @@ export default function DiagnoseChat() {
               }`}
             >
               {msg.role === "assistant" && (
-                <div className="flex items-center gap-2 mb-1 text-xs text-emerald-600 font-bold">
-                  <span>🤝</span>
+                <div className="flex items-center gap-1.5 mb-1.5 text-xs text-emerald-600 font-medium">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                  </svg>
                   <span>副業バディAI</span>
                 </div>
               )}

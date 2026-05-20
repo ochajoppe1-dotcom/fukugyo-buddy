@@ -67,13 +67,19 @@ const plans = [
   {
     name: "Free",
     price: "0",
-    features: ["LP診断 月3回", "AI相談 月3回", "適性診断 1回"],
+    features: ["LP診断 月3回", "AI相談 月3回"],
     highlight: false,
   },
   {
     name: "Standard",
     price: "550",
-    features: ["LP診断 無制限", "AI相談 月20回", "副業日記", "詐欺アラート 週1"],
+    features: [
+      "LP診断 無制限",
+      "AI相談 月20回",
+      "適性診断",
+      "副業日記",
+      "詐欺アラート 週1",
+    ],
     highlight: true,
   },
   {
@@ -106,9 +112,6 @@ export default function Home() {
       {/* Hero */}
       <section className="px-6 py-20 md:py-28">
         <div className="max-w-3xl mx-auto text-center">
-          <p className="text-emerald-600 text-sm font-medium mb-4">
-            副業詐欺被害者本人が運営
-          </p>
           <h1 className="text-3xl md:text-5xl font-bold text-gray-900 leading-tight mb-5">
             あなたの副業を、
             <br />
@@ -117,7 +120,7 @@ export default function Home() {
           <p className="text-gray-500 text-base md:text-lg leading-relaxed mb-8">
             始める前のチェックから、実践中の悩み相談、進捗管理まで。
             <br className="hidden md:block" />
-            副業の全ステップを、AIがそっと支えます。
+            副業の全ステップを、AIがサポートします。
           </p>
           <Link
             href="/diagnose"
@@ -174,12 +177,9 @@ export default function Home() {
       {/* Pricing */}
       <section className="px-6 py-16">
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-center text-2xl font-bold text-gray-900 mb-2">
+          <h2 className="text-center text-2xl font-bold text-gray-900 mb-12">
             シンプルで、お手頃な料金
           </h2>
-          <p className="text-center text-gray-500 text-sm mb-12">
-            価値あるものを、安く、誠実に。
-          </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {plans.map((plan) => (
               <div
@@ -241,12 +241,7 @@ export default function Home() {
       {/* Footer */}
       <footer className="border-t border-gray-100 px-6 py-8">
         <div className="max-w-5xl mx-auto text-center">
-          <p className="text-sm text-gray-400">
-            © 2026 副業バディAI
-          </p>
-          <p className="text-xs text-gray-300 mt-1">
-            副業詐欺被害者本人が、同じ被害を生まないために。
-          </p>
+          <p className="text-sm text-gray-400">© 2026 副業バディAI</p>
         </div>
       </footer>
     </main>
