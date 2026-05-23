@@ -1,4 +1,5 @@
 import Link from "next/link";
+import PricingCards from "./components/PricingCards";
 
 // シンプルな線アイコン（Lucide風）
 function IconShield() {
@@ -63,32 +64,6 @@ const features = [
   },
 ];
 
-const plans = [
-  {
-    name: "Free",
-    price: "0",
-    features: ["LP診断 月3回", "AI相談 月3回"],
-    highlight: false,
-  },
-  {
-    name: "Standard",
-    price: "550",
-    features: [
-      "LP診断 無制限",
-      "AI相談 月20回",
-      "適性診断",
-      "副業日記",
-      "詐欺アラート 週1",
-    ],
-    highlight: true,
-  },
-  {
-    name: "Premium",
-    price: "990",
-    features: ["Standardの全機能", "AI相談 月100回", "進捗AI分析", "緊急時テンプレ生成"],
-    highlight: false,
-  },
-];
 
 export default function Home() {
   return (
@@ -180,61 +155,7 @@ export default function Home() {
           <h2 className="text-center text-2xl font-bold text-gray-900 mb-12">
             シンプルで、お手頃な料金
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {plans.map((plan) => (
-              <div
-                key={plan.name}
-                className={`rounded-2xl p-6 border ${
-                  plan.highlight
-                    ? "border-emerald-300 bg-emerald-50/30 relative"
-                    : "border-gray-100"
-                }`}
-              >
-                {plan.highlight && (
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-emerald-600 text-white text-xs px-3 py-1 rounded-full">
-                    おすすめ
-                  </span>
-                )}
-                <h3 className="font-semibold text-gray-900 mb-1">
-                  {plan.name}
-                </h3>
-                <div className="flex items-baseline gap-1 mb-5">
-                  <span className="text-3xl font-bold text-gray-900">
-                    ¥{plan.price}
-                  </span>
-                  {plan.price !== "0" && (
-                    <span className="text-sm text-gray-400">/月</span>
-                  )}
-                </div>
-                <ul className="space-y-2">
-                  {plan.features.map((f, i) => (
-                    <li
-                      key={i}
-                      className="flex items-center gap-2 text-sm text-gray-600"
-                    >
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="text-emerald-500 flex-shrink-0"
-                      >
-                        <path d="M20 6 9 17l-5-5" />
-                      </svg>
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-          <p className="text-xs text-gray-400 text-center mt-6">
-            課金プランは初回7日間無料 ／ いつでもワンクリックで解約できます
-          </p>
+          <PricingCards />
         </div>
       </section>
 
