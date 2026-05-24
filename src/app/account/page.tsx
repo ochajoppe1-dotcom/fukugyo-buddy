@@ -1,8 +1,40 @@
 import { Suspense } from "react";
 import Link from "next/link";
+import { redirect } from "next/navigation";
+import { createClient } from "@/lib/supabase/server";
 import AccountClient from "./AccountClient";
 
-export default function AccountPage() {
+export const dynamic = "force-dynamic";
+
+export default async function AccountPage() {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect("/login");
+  }
+
+  // サーバー側でサブスク状態を取得
+  const { data: sub } = await supabase
+    .from("subscriptions")
+    .select("plan, status, current_period_end")
+    .eq("user_id", user.id)
+    .maybeSingle();
+
+  const initialSub = sub
+    ? {
+        plan: (sub.plan as "free" | "standard" | "premium") ?? "free",
+        status: sub.status ?? "inactive",
+        current_period_end: sub.current_period_end,
+      }
+    : {
+        plan: "free" as const,
+        status: "inactive",
+        current_period_end: null,
+      };
+
   return (
     <main className="flex-1 flex flex-col">
       <header className="border-b border-gray-100 bg-white">
@@ -25,7 +57,10 @@ export default function AccountPage() {
             </div>
           }
         >
-          <AccountClient />
+          <AccountClient
+            initialEmail={user.email ?? null}
+            initialSub={initialSub}
+          />
         </Suspense>
       </section>
     </main>
