@@ -17,7 +17,7 @@ type DiagnoseResult = {
 const INITIAL_MESSAGE: Message = {
   role: "assistant",
   content:
-    "こんにちは。副業バディAIです。\n\n気になっている副業教材・情報商材のLP（販売ページ）を一緒に診断しましょう。\n\nまずは、教材の URL または タイトル/販売者名 を教えてください。\n\n（例：https://〇〇.com / 〇〇式中国輸入講座 など）",
+    "こんにちは。副業バディAIです。\n\n気になっている副業教材・情報商材のLP（販売ページ）を一緒に診断しましょう。\n\nまずは、教材の URL または タイトル/販売者名 を教えてください。\n\n（例：https://〇〇.com / 〇〇式せどり講座 など）",
 };
 
 export default function DiagnoseChat() {
