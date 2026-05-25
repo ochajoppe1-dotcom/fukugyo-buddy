@@ -161,7 +161,29 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="border-t border-gray-100 px-6 py-8">
-        <div className="max-w-5xl mx-auto text-center">
+        <div className="max-w-5xl mx-auto text-center space-y-3">
+          <div className="flex items-center justify-center gap-4 text-xs text-gray-500">
+            <Link
+              href="/terms"
+              className="hover:text-emerald-600 transition-colors"
+            >
+              利用規約
+            </Link>
+            <span className="text-gray-300">/</span>
+            <Link
+              href="/privacy"
+              className="hover:text-emerald-600 transition-colors"
+            >
+              プライバシーポリシー
+            </Link>
+            <span className="text-gray-300">/</span>
+            <Link
+              href="/tokushoho"
+              className="hover:text-emerald-600 transition-colors"
+            >
+              特定商取引法に基づく表記
+            </Link>
+          </div>
           <p className="text-sm text-gray-400">© 2026 副業バディAI</p>
         </div>
       </footer>

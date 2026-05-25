@@ -169,6 +169,17 @@ export default function PricingCards() {
       <p className="text-xs text-gray-400 text-center mt-6">
         初回7日間無料 ／ いつでもワンクリックで解約できます
       </p>
+      <p className="text-xs text-gray-400 text-center mt-2">
+        お申し込みの前に{" "}
+        <a href="/terms" className="underline hover:text-emerald-600">
+          利用規約
+        </a>{" "}
+        と{" "}
+        <a href="/privacy" className="underline hover:text-emerald-600">
+          プライバシーポリシー
+        </a>{" "}
+        をご確認ください
+      </p>
     </div>
   );
 }

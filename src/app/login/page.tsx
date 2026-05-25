@@ -16,8 +16,19 @@ export default function LoginPage() {
         </div>
       </header>
 
-      <section className="flex-1 flex items-center justify-center px-6 py-16">
+      <section className="flex-1 flex flex-col items-center justify-center px-6 py-16">
         <LoginForm />
+        <p className="text-xs text-gray-400 text-center mt-6">
+          登録すると{" "}
+          <Link href="/terms" className="underline hover:text-emerald-600">
+            利用規約
+          </Link>{" "}
+          と{" "}
+          <Link href="/privacy" className="underline hover:text-emerald-600">
+            プライバシーポリシー
+          </Link>{" "}
+          に同意したものとみなされます
+        </p>
       </section>
     </main>
   );
