@@ -15,7 +15,7 @@ export default function TokushohoPage() {
             label="販売事業者"
             value="副業バディAI事務局（個人事業主）"
           />
-          <Row label="運営責任者" value="Takashi Yamaguchi" />
+          <Row label="運営責任者" value="山口 隆志" />
           <Row
             label="所在地"
             value="請求があれば遅滞なく開示します。"
@@ -28,7 +28,7 @@ export default function TokushohoPage() {
           />
           <Row
             label="メールアドレス"
-            value="afukugyo.buddy.ai@gmail.com"
+            value="fukugyo.buddy.ai@gmail.com"
           />
           <Row
             label="サービス名"

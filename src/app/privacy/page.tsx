@@ -107,8 +107,8 @@ export default function PrivacyPage() {
       </p>
       <ul>
         <li>事業者名：副業バディAI事務局</li>
-        <li>運営責任者：Takashi Yamaguchi</li>
-        <li>メールアドレス：afukugyo.buddy.ai@gmail.com</li>
+        <li>運営責任者：山口 隆志</li>
+        <li>メールアドレス：fukugyo.buddy.ai@gmail.com</li>
       </ul>
     </LegalLayout>
   );
