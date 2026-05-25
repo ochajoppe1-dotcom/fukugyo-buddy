@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
+import { createClient } from "@/lib/supabase/server";
+import { checkUsage, incrementUsage } from "@/lib/usage";
 
 // 副業バディAI の診断システムプロンプト
 // やまちゃんの本『月商○○万円という罠』のナレッジを反映
@@ -85,6 +87,37 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    // ログインユーザー取得
+    const supabase = await createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) {
+      return NextResponse.json(
+        { error: "ログインが必要です", redirect: "/login" },
+        { status: 401 }
+      );
+    }
+
+    // 月次利用回数チェック（Free=3回まで、Standard+=無制限）
+    const check = await checkUsage(supabase, user.id, "lp_diagnose");
+    if (!check.allowed) {
+      return NextResponse.json(
+        {
+          error:
+            check.reason === "limit_exceeded"
+              ? `今月のLP診断は上限（${check.limit}回）に達しました。プランをアップグレードしてください。`
+              : "このプランではLP診断をご利用いただけません。",
+          limit_exceeded: true,
+          plan: check.plan,
+          used: check.used,
+          limit: check.limit,
+        },
+        { status: 403 }
+      );
+    }
+
     const apiKey = process.env.ANTHROPIC_API_KEY;
 
     // === デモモード（APIキー未設定時） ===
@@ -101,6 +134,8 @@ export async function POST(req: NextRequest) {
             DEMO_RESPONSES[DEMO_RESPONSES.length - 1],
         });
       } else {
+        // 結果生成時に1回消費
+        await incrementUsage(user.id, "lp_diagnose");
         return NextResponse.json({
           result: DEMO_RESULT,
         });
@@ -144,6 +179,8 @@ export async function POST(req: NextRequest) {
       try {
         const parsed = JSON.parse(jsonMatch[1]);
         if (parsed.isResult) {
+          // 結果生成時に1回消費
+          await incrementUsage(user.id, "lp_diagnose");
           return NextResponse.json({ result: parsed });
         }
       } catch (e) {

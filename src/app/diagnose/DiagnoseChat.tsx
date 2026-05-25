@@ -49,12 +49,27 @@ export default function DiagnoseChat() {
       });
       const data = await res.json();
 
-      if (data.error) {
+      if (data.limit_exceeded) {
         setMessages([
           ...newMessages,
           {
             role: "assistant",
-            content: `⚠️ ${data.error}\n\n（管理者にAPIキーの設定を依頼してください）`,
+            content: `⚠️ ${data.error}\n\nStandard プランなら無制限でご利用いただけます。`,
+          },
+        ]);
+        // 上限到達時はトップへの誘導ボタンに切り替え
+        setResult({
+          riskScore: 0,
+          summary: "",
+          redFlags: [],
+          recommendation: "__limit_exceeded__",
+        } as DiagnoseResult);
+      } else if (data.error) {
+        setMessages([
+          ...newMessages,
+          {
+            role: "assistant",
+            content: `⚠️ ${data.error}`,
           },
         ]);
       } else if (data.result) {

@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
+import { createClient } from "@/lib/supabase/server";
+import { checkUsage } from "@/lib/usage";
 
 const SYSTEM_PROMPT = `あなたは「副業バディAI」の副業適性診断アドバイザーです。
 
@@ -85,6 +87,33 @@ export async function POST(req: NextRequest) {
       return NextResponse.json(
         { error: "回答データがありません" },
         { status: 400 }
+      );
+    }
+
+    // ログインユーザー取得
+    const supabase = await createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) {
+      return NextResponse.json(
+        { error: "ログインが必要です", redirect: "/login" },
+        { status: 401 }
+      );
+    }
+
+    // プランチェック（Standard+のみ）
+    const check = await checkUsage(supabase, user.id, "assessment");
+    if (!check.allowed) {
+      return NextResponse.json(
+        {
+          error:
+            "適性診断は Standard プラン以上でご利用いただけます。プランをアップグレードしてください。",
+          plan_locked: true,
+          plan: check.plan,
+        },
+        { status: 403 }
       );
     }
 
