@@ -24,6 +24,15 @@ const navItems = [
     ),
   },
   {
+    href: "/chat",
+    label: "AI相談",
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />
+      </svg>
+    ),
+  },
+  {
     href: "/diary",
     label: "日記",
     icon: (
@@ -59,7 +68,7 @@ export default function BottomNav() {
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 z-50">
-      <div className="max-w-md mx-auto flex items-center justify-around px-2 py-1.5">
+      <div className="max-w-lg mx-auto flex items-center justify-around px-1 py-1.5">
         {navItems.map((item) => {
           const isActive =
             item.href === "/"
@@ -69,7 +78,7 @@ export default function BottomNav() {
             <Link
               key={item.href}
               href={item.href}
-              className={`flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-lg transition-colors ${
+              className={`flex flex-col items-center gap-0.5 px-2 py-1.5 rounded-lg transition-colors ${
                 isActive
                   ? "text-emerald-600"
                   : "text-gray-400 hover:text-gray-600"
