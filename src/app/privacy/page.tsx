@@ -106,8 +106,9 @@ export default function PrivacyPage() {
         個人情報の取扱いに関するお問い合わせは、下記までご連絡ください。
       </p>
       <ul>
-        <li>運営者：YAMATARO</li>
-        <li>メールアドレス：ochajoppe1@gmail.com</li>
+        <li>事業者名：副業バディAI事務局</li>
+        <li>運営責任者：Takashi Yamaguchi</li>
+        <li>メールアドレス：afukugyo.buddy.ai@gmail.com</li>
       </ul>
     </LegalLayout>
   );
