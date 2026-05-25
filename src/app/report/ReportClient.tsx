@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 type Stats = {
   monthKey: string;
@@ -54,6 +55,7 @@ export default function ReportClient({
   remaining,
   limit,
 }: Props) {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [report, setReport] = useState<Report | null>(null);
@@ -70,6 +72,8 @@ export default function ReportClient({
       } else {
         setReport(data.result);
         setStats(data.stats);
+        // サーバー側のカウンタ表示を更新
+        router.refresh();
       }
     } catch {
       setError("通信エラーが発生しました");

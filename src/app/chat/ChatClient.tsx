@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 type Message = {
   role: "assistant" | "user";
@@ -22,6 +23,7 @@ const SUGGESTIONS = [
 ];
 
 export default function ChatClient() {
+  const router = useRouter();
   const [messages, setMessages] = useState<Message[]>([INITIAL_MESSAGE]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -68,6 +70,12 @@ export default function ChatClient() {
           ...newMessages,
           { role: "assistant", content: data.message },
         ]);
+        // 最初のメッセージ送信時のみ消費 → ヘッダー表示を更新
+        const isFirstMessage =
+          newMessages.filter((m) => m.role === "user").length === 1;
+        if (isFirstMessage) {
+          router.refresh();
+        }
       }
     } catch {
       setMessages([

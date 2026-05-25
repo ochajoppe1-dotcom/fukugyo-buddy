@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 type Message = {
   role: "assistant" | "user";
@@ -21,6 +22,7 @@ const INITIAL_MESSAGE: Message = {
 };
 
 export default function DiagnoseChat() {
+  const router = useRouter();
   const [messages, setMessages] = useState<Message[]>([INITIAL_MESSAGE]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -81,6 +83,8 @@ export default function DiagnoseChat() {
             content: "診断が完了しました。下に結果を表示します👇",
           },
         ]);
+        // 残り回数表示を更新（結果生成時のみカウントされる）
+        router.refresh();
       } else {
         setMessages([
           ...newMessages,
