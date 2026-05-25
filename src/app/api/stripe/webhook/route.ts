@@ -59,7 +59,25 @@ type UpsertPayload = {
   plan: string;
   status: string;
   current_period_end?: string | null;
+  cancel_at?: string | null;
 };
+
+// 解約予約日を取り出す（cancel_at or cancel_at_period_end の場合の current_period_end）
+function extractCancelAt(subscription: Stripe.Subscription): string | null {
+  if (subscription.cancel_at) {
+    return new Date(subscription.cancel_at * 1000).toISOString();
+  }
+  if (subscription.cancel_at_period_end) {
+    const periodEnd =
+      subscription.items?.data?.[0]?.current_period_end ??
+      // @ts-expect-error - legacy field
+      subscription.current_period_end;
+    if (periodEnd) {
+      return new Date(periodEnd * 1000).toISOString();
+    }
+  }
+  return null;
+}
 
 async function upsertSubscription(
   supabase: ReturnType<typeof getAdminClient>,
@@ -164,6 +182,7 @@ export async function POST(req: NextRequest) {
             plan,
             status: normalizeStatus(subscription.status),
             current_period_end: extractPeriodEnd(subscription),
+            cancel_at: extractCancelAt(subscription),
           },
           "checkout.session.completed"
         );
@@ -221,6 +240,7 @@ export async function POST(req: NextRequest) {
             plan,
             status: normalizeStatus(subscription.status),
             current_period_end: extractPeriodEnd(subscription),
+            cancel_at: extractCancelAt(subscription),
           },
           event.type
         );

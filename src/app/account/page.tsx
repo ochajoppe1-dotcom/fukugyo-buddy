@@ -19,7 +19,7 @@ export default async function AccountPage() {
   // サーバー側でサブスク状態を取得
   const { data: sub } = await supabase
     .from("subscriptions")
-    .select("plan, status, current_period_end")
+    .select("plan, status, current_period_end, cancel_at")
     .eq("user_id", user.id)
     .maybeSingle();
 
@@ -28,11 +28,13 @@ export default async function AccountPage() {
         plan: (sub.plan as "free" | "standard" | "premium") ?? "free",
         status: sub.status ?? "inactive",
         current_period_end: sub.current_period_end,
+        cancel_at: sub.cancel_at ?? null,
       }
     : {
         plan: "free" as const,
         status: "inactive",
         current_period_end: null,
+        cancel_at: null,
       };
 
   return (

@@ -10,6 +10,7 @@ type InitialSub = {
   plan: Plan;
   status: string;
   current_period_end: string | null;
+  cancel_at: string | null;
 };
 
 const PLAN_LABEL: Record<Plan, string> = {
@@ -86,6 +87,20 @@ export default function AccountClient({
         </div>
       </div>
 
+      {/* 解約予定バナー */}
+      {initialSub.cancel_at && (
+        <div className="bg-amber-50 border border-amber-200 text-amber-800 rounded-2xl p-4 text-sm">
+          <p className="font-bold mb-1">
+            ⚠ {new Date(initialSub.cancel_at).toLocaleDateString("ja-JP")} に解約予定
+          </p>
+          <p className="text-xs text-amber-700">
+            この日まで {PLAN_LABEL[initialSub.plan]} プランの機能が使えます。
+            <br />
+            予約をキャンセルしたい場合は、下の「プラン変更・解約」から取り消せます。
+          </p>
+        </div>
+      )}
+
       {/* プラン状態 */}
       <div className="bg-white rounded-2xl border border-gray-100 p-5">
         <h2 className="text-sm font-bold text-gray-700 mb-3">現在のプラン</h2>
@@ -94,13 +109,21 @@ export default function AccountClient({
             {PLAN_LABEL[initialSub.plan]}
           </span>
           <span className="text-xs text-gray-500">
-            {STATUS_LABEL[initialSub.status] ?? initialSub.status}
+            {initialSub.cancel_at
+              ? "解約予定"
+              : STATUS_LABEL[initialSub.status] ?? initialSub.status}
           </span>
         </div>
-        {initialSub.current_period_end && (
+        {initialSub.current_period_end && !initialSub.cancel_at && (
           <p className="text-xs text-gray-500">
             次回更新日：
             {new Date(initialSub.current_period_end).toLocaleDateString("ja-JP")}
+          </p>
+        )}
+        {initialSub.cancel_at && (
+          <p className="text-xs text-gray-500">
+            利用可能期限：
+            {new Date(initialSub.cancel_at).toLocaleDateString("ja-JP")}
           </p>
         )}
         <div className="mt-4 flex flex-wrap gap-2">
