@@ -3,7 +3,12 @@ import { createClient as createSupabaseAdmin } from "@supabase/supabase-js";
 import type { SupabaseClient } from "@supabase/supabase-js";
 
 export type Plan = "free" | "standard" | "premium";
-export type Feature = "lp_diagnose" | "assessment" | "ai_chat" | "diary";
+export type Feature =
+  | "lp_diagnose"
+  | "assessment"
+  | "ai_chat"
+  | "diary"
+  | "report";
 
 // 機能 × プランの上限定義
 // null = アクセス不可、Infinity = 無制限
@@ -28,6 +33,11 @@ const LIMITS: Record<Feature, Record<Plan, number | null>> = {
     standard: Infinity,
     premium: Infinity,
   },
+  report: {
+    free: null, // Freeはアクセス不可
+    standard: 1, // 月1回
+    premium: 4, // 週1相当（月4回）
+  },
 };
 
 // プランの日本語ラベル
@@ -43,6 +53,7 @@ export const FEATURE_LABEL: Record<Feature, string> = {
   assessment: "適性診断",
   ai_chat: "AI相談",
   diary: "副業日記",
+  report: "数字まるわかりレポート",
 };
 
 function getMonthKey(d: Date = new Date()): string {

@@ -33,6 +33,15 @@ function IconCompass() {
   );
 }
 
+function IconChart() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M3 3v18h18" />
+      <path d="m19 9-5 5-4-4-3 3" />
+    </svg>
+  );
+}
+
 const features = [
   {
     href: "/diagnose",
@@ -54,6 +63,13 @@ const features = [
     title: "副業日記",
     description: "売上・経費・時間を記録。AIが進捗を分析",
     label: "実践中に",
+  },
+  {
+    href: "/report",
+    icon: <IconChart />,
+    title: "数字まるわかりレポート",
+    description: "日記データをAIが分析、改善ポイントをレポート",
+    label: "見直したい時に",
   },
   {
     href: "/assessment",
