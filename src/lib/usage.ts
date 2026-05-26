@@ -8,7 +8,10 @@ export type Feature =
   | "assessment"
   | "ai_chat"
   | "diary"
-  | "report";
+  | "report"
+  | "emergency_template"
+  | "practical_support"
+  | "roadmap";
 
 // 機能 × プランの上限定義
 // null = アクセス不可、Infinity = 無制限
@@ -38,6 +41,21 @@ const LIMITS: Record<Feature, Record<Plan, number | null>> = {
     standard: 1, // 月1回
     premium: 4, // 週1相当（月4回）
   },
+  emergency_template: {
+    free: null,
+    standard: null,
+    premium: 20, // 月20回
+  },
+  practical_support: {
+    free: null,
+    standard: null,
+    premium: 30, // 月30回
+  },
+  roadmap: {
+    free: null,
+    standard: null,
+    premium: 2, // 月2回（半年ごと再生成想定）
+  },
 };
 
 // プランの日本語ラベル
@@ -54,6 +72,9 @@ export const FEATURE_LABEL: Record<Feature, string> = {
   ai_chat: "AI相談",
   diary: "副業日記",
   report: "数字まるわかりレポート",
+  emergency_template: "緊急時テンプレ生成",
+  practical_support: "AI実務サポート",
+  roadmap: "AI副業ロードマップ",
 };
 
 function getMonthKey(d: Date = new Date()): string {

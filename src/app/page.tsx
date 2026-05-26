@@ -41,6 +41,32 @@ function IconChart() {
     </svg>
   );
 }
+function IconLifebuoy() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="10" />
+      <circle cx="12" cy="12" r="4" />
+      <path d="m4.93 4.93 4.24 4.24M14.83 14.83l4.24 4.24M14.83 9.17l4.24-4.24M14.83 9.17l3.53-3.53M4.93 19.07l4.24-4.24" />
+    </svg>
+  );
+}
+function IconFile() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+      <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" />
+    </svg>
+  );
+}
+function IconRoute() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="6" cy="19" r="3" />
+      <path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15" />
+      <circle cx="18" cy="5" r="3" />
+    </svg>
+  );
+}
 
 const features = [
   {
@@ -77,6 +103,27 @@ const features = [
     title: "適性診断",
     description: "15の質問で、あなたに向いた副業をAIが提案",
     label: "迷った時に",
+  },
+  {
+    href: "/roadmap",
+    icon: <IconRoute />,
+    title: "AI副業ロードマップ",
+    description: "3ヶ月／半年／1年の段階的プランをAIが設計",
+    label: "Premium",
+  },
+  {
+    href: "/support",
+    icon: <IconFile />,
+    title: "AI実務サポート",
+    description: "商品説明文・メール・SNS投稿などをAIが作成",
+    label: "Premium",
+  },
+  {
+    href: "/emergency",
+    icon: <IconLifebuoy />,
+    title: "緊急時テンプレ生成",
+    description: "返金交渉・クレーム対応など困った時の文面をAIが作成",
+    label: "Premium",
   },
 ];
 
