@@ -8,11 +8,26 @@ type Message = {
   content: string;
 };
 
+type Props = {
+  isPremium?: boolean;
+  initialHistory?: Message[];
+  initialConversationId?: string | null;
+};
+
 const INITIAL_MESSAGE: Message = {
   role: "assistant",
   content:
     "こんにちは。副業バディAIです。\n\n副業のことで気になっていることがあれば、なんでも聞いてください。\n\n・どんな副業が向いてるか迷ってる\n・本業と両立できるか不安\n・始めたけど続かない\n・買おうとしてる教材があるけど怪しい気がする\n・売上が伸びなくて辞めようか悩んでる\n\nどんな相談でも大丈夫です。気軽にどうぞ。",
 };
+
+// UUID v4 生成（軽量版）
+function makeConversationId(): string {
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
+    const r = (Math.random() * 16) | 0;
+    const v = c === "x" ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
+}
 
 // 相談スタート用のサジェスト
 const SUGGESTIONS = [
@@ -22,9 +37,18 @@ const SUGGESTIONS = [
   "副業が続かない、どうすれば？",
 ];
 
-export default function ChatClient() {
+export default function ChatClient({
+  isPremium = false,
+  initialHistory = [],
+  initialConversationId = null,
+}: Props) {
   const router = useRouter();
-  const [messages, setMessages] = useState<Message[]>([INITIAL_MESSAGE]);
+  const [messages, setMessages] = useState<Message[]>(
+    initialHistory.length > 0 ? initialHistory : [INITIAL_MESSAGE]
+  );
+  const [conversationId, setConversationId] = useState<string>(
+    initialConversationId ?? makeConversationId()
+  );
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [limitExceeded, setLimitExceeded] = useState(false);
@@ -47,7 +71,7 @@ export default function ChatClient() {
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: newMessages }),
+        body: JSON.stringify({ messages: newMessages, conversationId }),
       });
       const data = await res.json();
 
@@ -97,6 +121,7 @@ export default function ChatClient() {
 
   const handleReset = () => {
     setMessages([INITIAL_MESSAGE]);
+    setConversationId(makeConversationId()); // 新しい会話IDを発行
     setInput("");
     setLimitExceeded(false);
   };
@@ -105,6 +130,19 @@ export default function ChatClient() {
 
   return (
     <div className="flex-1 flex flex-col max-w-4xl w-full mx-auto px-4 py-4">
+      {/* Premium: 履歴引継ぎバナー */}
+      {isPremium && initialHistory.length > 0 && (
+        <div className="bg-amber-50 border border-amber-100 rounded-xl px-4 py-2 text-xs text-amber-700 mb-3 flex items-center justify-between">
+          <span>📜 前回の会話を引き継いでいます（Premium 全記憶）</span>
+          <button
+            onClick={handleReset}
+            className="text-amber-700 underline hover:text-amber-900"
+          >
+            新しい会話を始める
+          </button>
+        </div>
+      )}
+
       {/* メッセージ表示 */}
       <div className="flex-1 overflow-y-auto space-y-3 mb-4">
         {messages.map((msg, i) => (

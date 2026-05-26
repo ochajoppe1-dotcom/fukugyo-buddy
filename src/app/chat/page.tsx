@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { checkUsage } from "@/lib/usage";
+import { checkUsage, getUserPlan } from "@/lib/usage";
 import ChatClient from "./ChatClient";
 import LockedFeature from "../components/LockedFeature";
 
@@ -12,6 +12,11 @@ export const metadata: Metadata = {
   title: "AI相談 - 副業の悩みを24時間チャット相談",
   description:
     "副業選び、続け方、辞め時、詐欺被害の相談まで。AIが24時間いつでも答えます。Free月3回・Standard月20回・Premium無制限。",
+};
+
+type HistoryMessage = {
+  role: "user" | "assistant";
+  content: string;
 };
 
 export default async function ChatPage() {
@@ -25,6 +30,35 @@ export default async function ChatPage() {
   }
 
   const usage = await checkUsage(supabase, user.id, "ai_chat");
+  const plan = await getUserPlan(supabase, user.id);
+  const isPremium = plan === "premium";
+
+  // Premium のみ過去の会話履歴を読み込む（最新の会話セッション）
+  let initialHistory: HistoryMessage[] = [];
+  let initialConversationId: string | null = null;
+  if (isPremium) {
+    // 最新のメッセージから conversation_id を取得
+    const { data: latest } = await supabase
+      .from("chat_messages")
+      .select("conversation_id, created_at")
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    if (latest?.conversation_id) {
+      // 同じ会話の全メッセージを取得（古い順）
+      const { data: history } = await supabase
+        .from("chat_messages")
+        .select("role, content")
+        .eq("conversation_id", latest.conversation_id)
+        .order("created_at", { ascending: true });
+
+      if (history && history.length > 0) {
+        initialHistory = history as HistoryMessage[];
+        initialConversationId = latest.conversation_id;
+      }
+    }
+  }
 
   const header = (
     <header className="border-b border-gray-100 bg-white">
@@ -85,7 +119,11 @@ export default async function ChatPage() {
     <main className="flex-1 flex flex-col">
       {header}
       <section className="flex-1 flex flex-col">
-        <ChatClient />
+        <ChatClient
+          isPremium={isPremium}
+          initialHistory={initialHistory}
+          initialConversationId={initialConversationId}
+        />
       </section>
     </main>
   );

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
-import { checkUsage, incrementUsage } from "@/lib/usage";
+import { checkUsage, incrementUsage, getUserPlan } from "@/lib/usage";
 
 // 副業バディAI チャット相談のシステムプロンプト
 const SYSTEM_PROMPT = `あなたは「副業バディAI」というサービスのAIアシスタントです。
@@ -88,7 +88,7 @@ const DEMO_RESPONSES = [
 
 export async function POST(req: NextRequest) {
   try {
-    const { messages } = await req.json();
+    const { messages, conversationId } = await req.json();
     if (!messages || !Array.isArray(messages)) {
       return NextResponse.json(
         { error: "メッセージが正しくありません" },
@@ -109,11 +109,16 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    // プラン確認（Premium のみ会話を永続化）
+    const plan = await getUserPlan(supabase, user.id);
+    const isPremium = plan === "premium";
+
     // ユーザーメッセージ数をカウント（最初のメッセージ = 新セッション = 1回消費）
     const userMessages = messages.filter(
       (m: { role: string }) => m.role === "user"
     );
     const isFirstMessage = userMessages.length === 1;
+    const latestUserMessage = userMessages[userMessages.length - 1];
 
     // 月次利用回数チェック（最初のメッセージ送信時のみ）
     if (isFirstMessage) {
@@ -145,6 +150,17 @@ export async function POST(req: NextRequest) {
       // 最初のメッセージなら消費
       if (isFirstMessage) {
         await incrementUsage(user.id, "ai_chat");
+      }
+
+      // Premium は履歴保存
+      if (isPremium && conversationId && latestUserMessage) {
+        await persistMessages(
+          supabase,
+          user.id,
+          conversationId,
+          latestUserMessage.content,
+          responseText
+        );
       }
 
       return NextResponse.json({ message: responseText });
@@ -186,6 +202,17 @@ export async function POST(req: NextRequest) {
       await incrementUsage(user.id, "ai_chat");
     }
 
+    // Premium は履歴保存
+    if (isPremium && conversationId && latestUserMessage) {
+      await persistMessages(
+        supabase,
+        user.id,
+        conversationId,
+        latestUserMessage.content,
+        responseText
+      );
+    }
+
     return NextResponse.json({ message: responseText });
   } catch (e) {
     console.error("Chat API error:", e);
@@ -193,5 +220,34 @@ export async function POST(req: NextRequest) {
       { error: "サーバーエラーが発生しました" },
       { status: 500 }
     );
+  }
+}
+
+// メッセージ永続化（Premium のみ）
+async function persistMessages(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  userId: string,
+  conversationId: string,
+  userContent: string,
+  assistantContent: string
+) {
+  try {
+    await supabase.from("chat_messages").insert([
+      {
+        user_id: userId,
+        conversation_id: conversationId,
+        role: "user",
+        content: userContent,
+      },
+      {
+        user_id: userId,
+        conversation_id: conversationId,
+        role: "assistant",
+        content: assistantContent,
+      },
+    ]);
+  } catch (e) {
+    // 履歴保存失敗してもAPI自体は成功させる
+    console.error("[chat] history save failed:", e);
   }
 }
