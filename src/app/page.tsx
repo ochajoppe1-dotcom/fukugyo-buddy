@@ -77,69 +77,113 @@ function IconAlert() {
   );
 }
 
-const features = [
+function PlanBadge({ plan }: { plan: "free" | "standard" | "premium" }) {
+  const styles = {
+    free: "bg-gray-100 text-gray-600",
+    standard: "bg-emerald-100 text-emerald-700",
+    premium: "bg-amber-100 text-amber-700",
+  };
+  const label = {
+    free: "FREE",
+    standard: "STANDARD",
+    premium: "PREMIUM",
+  };
+  return (
+    <span
+      className={`text-[10px] font-bold px-2 py-0.5 rounded-full tracking-wider ${styles[plan]}`}
+    >
+      {label[plan]}
+    </span>
+  );
+}
+
+type FeatureGroup = {
+  title: string;
+  subtitle: string;
+  badge: "free" | "standard" | "premium";
+  items: {
+    href: string;
+    icon: React.ReactNode;
+    title: string;
+    description: string;
+  }[];
+};
+
+const featureGroups: FeatureGroup[] = [
   {
-    href: "/diagnose",
-    icon: <IconShield />,
-    title: "LP診断",
-    description: "副業教材の販売ページを、AIが対話形式で診断",
-    label: "始める前に",
+    title: "まずは無料で試せる",
+    subtitle: "アカウント登録のみ、課金なしで使える機能",
+    badge: "free",
+    items: [
+      {
+        href: "/diagnose",
+        icon: <IconShield />,
+        title: "LP診断",
+        description: "副業教材の販売ページをAIが対話形式で診断（月3回）",
+      },
+      {
+        href: "/chat",
+        icon: <IconMessage />,
+        title: "AI相談",
+        description: "副業の悩みを24時間チャットで相談（月3回）",
+      },
+    ],
   },
   {
-    href: "/chat",
-    icon: <IconMessage />,
-    title: "AI相談",
-    description: "副業の悩みを、24時間いつでもチャットで相談",
-    label: "困った時に",
+    title: "副業を続けるための機能",
+    subtitle: "Standardプラン（¥550/月）に含まれる",
+    badge: "standard",
+    items: [
+      {
+        href: "/diary",
+        icon: <IconBook />,
+        title: "副業日記",
+        description: "売上・経費・時間を記録。時給換算を自動計算",
+      },
+      {
+        href: "/report",
+        icon: <IconChart />,
+        title: "数字まるわかりレポート",
+        description: "日記データをAIが分析、改善ポイントをレポート",
+      },
+      {
+        href: "/assessment",
+        icon: <IconCompass />,
+        title: "適性診断",
+        description: "15の質問で、あなたに向いた副業をAIが提案",
+      },
+      {
+        href: "/alerts",
+        icon: <IconAlert />,
+        title: "詐欺アラート",
+        description: "副業詐欺の典型パターンと注意ポイントを定期配信",
+      },
+    ],
   },
   {
-    href: "/diary",
-    icon: <IconBook />,
-    title: "副業日記",
-    description: "売上・経費・時間を記録。AIが進捗を分析",
-    label: "実践中に",
-  },
-  {
-    href: "/report",
-    icon: <IconChart />,
-    title: "数字まるわかりレポート",
-    description: "日記データをAIが分析、改善ポイントをレポート",
-    label: "見直したい時に",
-  },
-  {
-    href: "/assessment",
-    icon: <IconCompass />,
-    title: "適性診断",
-    description: "15の質問で、あなたに向いた副業をAIが提案",
-    label: "迷った時に",
-  },
-  {
-    href: "/alerts",
-    icon: <IconAlert />,
-    title: "詐欺アラート",
-    description: "副業詐欺の典型パターンと注意ポイントを定期配信",
-    label: "Standard",
-  },
-  {
-    href: "/roadmap",
-    icon: <IconRoute />,
-    title: "AI副業ロードマップ",
-    description: "3ヶ月／半年／1年の段階的プランをAIが設計",
-    label: "Premium",
-  },
-  {
-    href: "/support",
-    icon: <IconFile />,
-    title: "AI実務サポート",
-    description: "商品説明文・メール・SNS投稿などをAIが作成",
-    label: "Premium",
-  },
-  {
-    href: "/emergency",
-    icon: <IconLifebuoy />,
-    title: "緊急時テンプレ生成",
-    description: "返金交渉・クレーム対応など困った時の文面をAIが作成",
-    label: "Premium",
+    title: "本業化を目指す人のための機能",
+    subtitle: "Premiumプラン（¥990/月）だけの専属サポート",
+    badge: "premium",
+    items: [
+      {
+        href: "/roadmap",
+        icon: <IconRoute />,
+        title: "AI副業ロードマップ",
+        description: "3ヶ月／半年／1年の段階的プランをAIが設計",
+      },
+      {
+        href: "/support",
+        icon: <IconFile />,
+        title: "AI実務サポート",
+        description: "商品説明・メール・SNS投稿などをAIが作成",
+      },
+      {
+        href: "/emergency",
+        icon: <IconLifebuoy />,
+        title: "緊急時テンプレ生成",
+        description: "返金交渉・クレーム対応などの文面をAIが作成",
+      },
+    ],
   },
 ];
 
@@ -188,48 +232,58 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Features */}
+      {/* Features grouped by plan */}
       <section className="px-6 py-16 bg-white border-y border-gray-100">
         <div className="max-w-5xl mx-auto">
           <h2 className="text-center text-2xl font-bold text-gray-900 mb-2">
             副業ライフサイクル、まるごと伴走
           </h2>
           <p className="text-center text-gray-500 text-sm mb-12">
-            4つの機能で、あなたの副業をサポート。
+            9つの機能で、始める前から本業化まで段階的にサポート
           </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {features.map((feature) => (
-              <Link
-                key={feature.href}
-                href={feature.href}
-                className="group bg-white rounded-2xl p-6 border border-gray-100 hover:border-emerald-200 hover:shadow-sm transition-all"
-              >
-                <div className="flex items-start gap-4">
-                  <div className="w-11 h-11 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center flex-shrink-0 group-hover:bg-emerald-100 transition-colors">
-                    {feature.icon}
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-1">
-                      <h3 className="font-semibold text-gray-900">
-                        {feature.title}
-                      </h3>
-                      <span className="text-xs text-gray-400">
-                        {feature.label}
-                      </span>
+
+          {featureGroups.map((group, gIdx) => (
+            <div key={group.title} className={gIdx > 0 ? "mt-12" : ""}>
+              {/* グループヘッダー */}
+              <div className="flex items-center gap-3 mb-1">
+                <h3 className="text-lg font-bold text-gray-900">
+                  {group.title}
+                </h3>
+                <PlanBadge plan={group.badge} />
+              </div>
+              <p className="text-xs text-gray-500 mb-5">{group.subtitle}</p>
+
+              {/* グループ内のカード */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {group.items.map((feature) => (
+                  <Link
+                    key={feature.href}
+                    href={feature.href}
+                    className="group bg-white rounded-2xl p-5 border border-gray-100 hover:border-emerald-200 hover:shadow-sm transition-all"
+                  >
+                    <div className="flex items-start gap-4">
+                      <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center flex-shrink-0 group-hover:bg-emerald-100 transition-colors">
+                        {feature.icon}
+                      </div>
+                      <div className="flex-1">
+                        <h4 className="font-semibold text-gray-900 mb-0.5">
+                          {feature.title}
+                        </h4>
+                        <p className="text-sm text-gray-500 leading-relaxed">
+                          {feature.description}
+                        </p>
+                      </div>
                     </div>
-                    <p className="text-sm text-gray-500 leading-relaxed">
-                      {feature.description}
-                    </p>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
       </section>
 
       {/* Pricing */}
-      <section className="px-6 py-16">
+      <section id="pricing" className="px-6 py-16">
         <div className="max-w-5xl mx-auto">
           <h2 className="text-center text-2xl font-bold text-gray-900 mb-12">
             シンプルで、お手頃な料金
