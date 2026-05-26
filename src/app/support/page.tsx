@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
@@ -6,6 +7,12 @@ import SupportClient from "./SupportClient";
 import LockedFeature from "../components/LockedFeature";
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "AI実務サポート - 商品説明・メール・SNS投稿をAIが作成",
+  description:
+    "副業の実務文章作成（商品説明、提案メール、価格交渉、SNSキャッチコピー、プロフィール文等）をAIがサポート。Premiumプランの機能。",
+};
 
 export default async function SupportPage() {
   const supabase = await createClient();

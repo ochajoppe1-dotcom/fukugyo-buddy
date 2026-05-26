@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
@@ -6,6 +7,12 @@ import LockedFeature from "../components/LockedFeature";
 import { ALERTS } from "./alertsData";
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "詐欺アラート - 副業詐欺の典型パターンを定期配信",
+  description:
+    "情報商材詐欺、SNS勧誘、面談営業、月商と月利の混同など、副業詐欺の典型パターンを業界全体の傾向としてまとめて配信。Standardプラン以上。",
+};
 
 export default async function AlertsPage() {
   const supabase = await createClient();

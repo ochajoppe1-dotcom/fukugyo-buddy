@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
@@ -6,6 +7,12 @@ import { getUserPlan } from "@/lib/usage";
 import LockedFeature from "../components/LockedFeature";
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "副業日記 - 売上・経費・時間を記録して時給を可視化",
+  description:
+    "副業の売上・経費・作業時間を毎日記録。累計収支と時給換算を自動計算します。AIが進捗を分析するレポート機能付き。Standardプラン以上。",
+};
 
 export default async function DiaryPage() {
   const supabase = await createClient();

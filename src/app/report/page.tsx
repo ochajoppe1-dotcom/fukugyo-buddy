@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
@@ -6,6 +7,12 @@ import ReportClient from "./ReportClient";
 import LockedFeature from "../components/LockedFeature";
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "数字まるわかりレポート - 副業日記をAIが分析",
+  description:
+    "副業日記の売上・経費・時間データから、月次の傾向、時給ヘルスチェック、改善ポイントをAIが分析してレポートにします。",
+};
 
 export default async function ReportPage() {
   const supabase = await createClient();

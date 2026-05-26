@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
@@ -6,6 +7,12 @@ import DiagnoseChat from "./DiagnoseChat";
 import LockedFeature from "../components/LockedFeature";
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "LP診断 - 副業教材の販売ページをAIがチェック",
+  description:
+    "情報商材・副業教材のLP（販売ページ）を、AIが対話形式で27の危険サインから診断します。購入前のチェックで詐欺被害を未然に防ぎましょう。",
+};
 
 export default async function DiagnosePage() {
   const supabase = await createClient();

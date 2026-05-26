@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
@@ -6,6 +7,12 @@ import RoadmapClient from "./RoadmapClient";
 import LockedFeature from "../components/LockedFeature";
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "AI副業ロードマップ - 3ヶ月/半年/1年の段階的プラン",
+  description:
+    "目標・時間・スキル・予算から、3ヶ月／半年／1年の段階的アクションプランをAIが設計。撤退ラインも明示。Premiumプランの専属サポート。",
+};
 
 export default async function RoadmapPage() {
   const supabase = await createClient();

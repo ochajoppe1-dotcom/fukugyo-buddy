@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
@@ -6,6 +7,12 @@ import EmergencyClient from "./EmergencyClient";
 import LockedFeature from "../components/LockedFeature";
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "緊急時テンプレ生成 - 返金交渉・クレーム対応の文面",
+  description:
+    "情報商材の返金交渉、不良品クレーム、相手と連絡が取れない時など、副業で困った時のメール・メッセージ文面をAIが作成。Premiumプランの機能。",
+};
 
 export default async function EmergencyPage() {
   const supabase = await createClient();

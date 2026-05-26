@@ -1,5 +1,12 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import LoginForm from "./LoginForm";
+
+export const metadata: Metadata = {
+  title: "ログイン / 新規登録",
+  description:
+    "副業バディAI のログイン・新規登録ページ。メールアドレスとパスワードでアカウントを作成できます。",
+};
 
 export default function LoginPage() {
   return (

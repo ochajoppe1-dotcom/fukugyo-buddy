@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
@@ -6,6 +7,12 @@ import ChatClient from "./ChatClient";
 import LockedFeature from "../components/LockedFeature";
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "AI相談 - 副業の悩みを24時間チャット相談",
+  description:
+    "副業選び、続け方、辞め時、詐欺被害の相談まで。AIが24時間いつでも答えます。Free月3回・Standard月20回・Premium無制限。",
+};
 
 export default async function ChatPage() {
   const supabase = await createClient();

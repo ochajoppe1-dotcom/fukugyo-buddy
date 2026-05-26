@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
@@ -6,6 +7,12 @@ import AssessmentClient from "./AssessmentClient";
 import LockedFeature from "../components/LockedFeature";
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "副業適性診断 - 15の質問であなたに向いた副業をAIが提案",
+  description:
+    "時間制約・体力・性格・リスク許容度・興味から、あなたに向いている副業TOP3と避けるべき副業をAIが診断。Standardプラン以上。",
+};
 
 export default async function AssessmentPage() {
   const supabase = await createClient();
