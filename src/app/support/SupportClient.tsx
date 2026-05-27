@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useToast } from "../components/Toast";
 
 type Result = {
   title: string;
@@ -39,12 +40,12 @@ export default function SupportClient({
   canGenerate: boolean;
 }) {
   const router = useRouter();
+  const toast = useToast();
   const [task, setTask] = useState("");
   const [context, setContext] = useState("");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<Result | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [copiedKey, setCopiedKey] = useState<string | null>(null);
 
   const generate = async () => {
     if (!task.trim() || loading) return;
@@ -71,13 +72,12 @@ export default function SupportClient({
     }
   };
 
-  const copy = async (text: string, key: string) => {
+  const copy = async (text: string) => {
     try {
       await navigator.clipboard.writeText(text);
-      setCopiedKey(key);
-      setTimeout(() => setCopiedKey(null), 2000);
+      toast.show("✓ コピーしました", "success");
     } catch {
-      alert("コピーに失敗しました");
+      toast.show("コピーに失敗しました", "error");
     }
   };
 
@@ -114,10 +114,10 @@ export default function SupportClient({
             {result.main}
           </p>
           <button
-            onClick={() => copy(result.main, "main")}
+            onClick={() => copy(result.main)}
             className="mt-3 w-full bg-emerald-600 text-white py-2.5 rounded-xl font-medium hover:bg-emerald-700 transition-colors text-sm"
           >
-            {copiedKey === "main" ? "✓ コピーしました" : "📋 コピー"}
+            📋 コピー
           </button>
         </div>
 
@@ -134,10 +134,10 @@ export default function SupportClient({
               {alt}
             </p>
             <button
-              onClick={() => copy(alt, `alt-${i}`)}
+              onClick={() => copy(alt)}
               className="mt-3 w-full border border-gray-300 text-gray-600 py-2 rounded-xl font-medium hover:bg-gray-50 transition-colors text-sm"
             >
-              {copiedKey === `alt-${i}` ? "✓ コピーしました" : "📋 コピー"}
+              📋 コピー
             </button>
           </div>
         ))}

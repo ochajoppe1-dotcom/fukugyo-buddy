@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useToast } from "../components/Toast";
 
 type Result = {
   subject: string;
@@ -40,12 +41,12 @@ export default function EmergencyClient({
   canGenerate: boolean;
 }) {
   const router = useRouter();
+  const toast = useToast();
   const [situation, setSituation] = useState("");
   const [details, setDetails] = useState("");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<Result | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [copied, setCopied] = useState(false);
 
   const generate = async () => {
     if (!situation.trim() || loading) return;
@@ -79,10 +80,9 @@ export default function EmergencyClient({
       : result.body;
     try {
       await navigator.clipboard.writeText(full);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+      toast.show("✓ コピーしました", "success");
     } catch {
-      alert("コピーに失敗しました");
+      toast.show("コピーに失敗しました", "error");
     }
   };
 
@@ -123,7 +123,7 @@ export default function EmergencyClient({
             onClick={copyBody}
             className="mt-3 w-full bg-emerald-600 text-white py-2.5 rounded-xl font-medium hover:bg-emerald-700 transition-colors text-sm"
           >
-            {copied ? "✓ コピーしました" : "📋 件名+本文をコピー"}
+            📋 件名+本文をコピー
           </button>
         </div>
 

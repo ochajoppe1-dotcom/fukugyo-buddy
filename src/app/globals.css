@@ -18,3 +18,19 @@ body {
     "Hiragino Sans", -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
+
+/* Toast notification animation */
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-toast-in {
+  animation: toast-in 0.25s ease-out;
+}

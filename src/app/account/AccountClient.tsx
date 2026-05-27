@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import { useToast } from "../components/Toast";
 
 type Plan = "free" | "standard" | "premium";
 
@@ -40,6 +41,7 @@ export default function AccountClient({
 }) {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const toast = useToast();
   const [portalLoading, setPortalLoading] = useState(false);
 
   const checkoutStatus = searchParams.get("checkout");
@@ -52,10 +54,10 @@ export default function AccountClient({
       if (data.url) {
         window.location.href = data.url;
       } else {
-        alert(data.error || "ポータルを開けませんでした");
+        toast.show(data.error || "ポータルを開けませんでした", "error");
       }
     } catch {
-      alert("通信エラーが発生しました");
+      toast.show("通信エラーが発生しました", "error");
     } finally {
       setPortalLoading(false);
     }

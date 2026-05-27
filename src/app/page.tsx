@@ -295,7 +295,14 @@ export default function Home() {
       {/* Footer */}
       <footer className="border-t border-gray-100 px-6 py-8">
         <div className="max-w-5xl mx-auto text-center space-y-3">
-          <div className="flex items-center justify-center gap-4 text-xs text-gray-500">
+          <div className="flex items-center justify-center gap-4 text-xs text-gray-500 flex-wrap">
+            <Link
+              href="/help"
+              className="hover:text-emerald-600 transition-colors"
+            >
+              よくある質問
+            </Link>
+            <span className="text-gray-300">/</span>
             <Link
               href="/terms"
               className="hover:text-emerald-600 transition-colors"

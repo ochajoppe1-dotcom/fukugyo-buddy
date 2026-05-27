@@ -75,6 +75,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly",
       priority: 0.7,
     },
+    // ヘルプ
+    {
+      url: `${SITE_URL}/help`,
+      lastModified,
+      changeFrequency: "monthly",
+      priority: 0.5,
+    },
     // 法的ページ
     {
       url: `${SITE_URL}/privacy`,

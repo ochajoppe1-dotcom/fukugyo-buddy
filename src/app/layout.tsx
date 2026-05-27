@@ -1,7 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import { M_PLUS_Rounded_1c } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import BottomNav from "./components/BottomNav";
+import { ToastProvider } from "./components/Toast";
 
 const rounded = M_PLUS_Rounded_1c({
   weight: ["400", "500", "700"],
@@ -111,8 +113,11 @@ export default function RootLayout({
       className={`${rounded.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col pb-16">
-        {children}
-        <BottomNav />
+        <ToastProvider>
+          {children}
+          <BottomNav />
+        </ToastProvider>
+        <Analytics />
       </body>
     </html>
   );

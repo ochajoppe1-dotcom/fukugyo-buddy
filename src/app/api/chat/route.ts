@@ -109,7 +109,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // プラン確認（Premium のみ会話を永続化）
+    // プラン確認（Premium のみ会話を永続化 + 副業日記コンテキスト連携）
     const plan = await getUserPlan(supabase, user.id);
     const isPremium = plan === "premium";
 
@@ -119,6 +119,45 @@ export async function POST(req: NextRequest) {
     );
     const isFirstMessage = userMessages.length === 1;
     const latestUserMessage = userMessages[userMessages.length - 1];
+
+    // Premium のみ：副業日記のサマリーをコンテキストとして取得
+    let diaryContext = "";
+    if (isPremium) {
+      const { data: entries } = await supabase
+        .from("diary_entries")
+        .select("entry_date, revenue, expense, work_minutes")
+        .order("entry_date", { ascending: false })
+        .limit(30);
+
+      if (entries && entries.length > 0) {
+        const totalRev = entries.reduce(
+          (s, e) => s + (e.revenue ?? 0),
+          0
+        );
+        const totalExp = entries.reduce(
+          (s, e) => s + (e.expense ?? 0),
+          0
+        );
+        const totalMin = entries.reduce(
+          (s, e) => s + (e.work_minutes ?? 0),
+          0
+        );
+        const hourly =
+          totalMin > 0
+            ? Math.round(((totalRev - totalExp) / totalMin) * 60)
+            : 0;
+        diaryContext = `\n\n【参考：このユーザーの副業日記（直近30件）】
+- 記録日数：${entries.length}日
+- 売上合計：${totalRev.toLocaleString()}円
+- 経費合計：${totalExp.toLocaleString()}円
+- 利益：${(totalRev - totalExp).toLocaleString()}円
+- 作業時間：${(totalMin / 60).toFixed(1)}時間
+- 時給換算：${hourly.toLocaleString()}円/h
+
+ユーザーが数字や具体的な状況に触れたら、この日記データを参考に答えてOK。
+ただし、ユーザーから明示的に聞かれない限り、勝手に数字の話を切り出さない。`;
+      }
+    }
 
     // 月次利用回数チェック（最初のメッセージ送信時のみ）
     if (isFirstMessage) {
@@ -177,7 +216,7 @@ export async function POST(req: NextRequest) {
       body: JSON.stringify({
         model: "claude-sonnet-4-5",
         max_tokens: 1024,
-        system: SYSTEM_PROMPT,
+        system: SYSTEM_PROMPT + diaryContext,
         messages: messages.map((m: { role: string; content: string }) => ({
           role: m.role,
           content: m.content,
