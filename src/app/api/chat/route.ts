@@ -109,9 +109,12 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // プラン確認（Premium のみ会話を永続化 + 副業日記コンテキスト連携）
+    // プラン確認
+    // - 日記コンテキスト連携：Standard 以上
+    // - 会話履歴の永続化：Premium のみ
     const plan = await getUserPlan(supabase, user.id);
     const isPremium = plan === "premium";
+    const isStandardOrAbove = plan === "standard" || plan === "premium";
 
     // ユーザーメッセージ数をカウント（最初のメッセージ = 新セッション = 1回消費）
     const userMessages = messages.filter(
@@ -120,9 +123,9 @@ export async function POST(req: NextRequest) {
     const isFirstMessage = userMessages.length === 1;
     const latestUserMessage = userMessages[userMessages.length - 1];
 
-    // Premium のみ：副業日記のサマリーをコンテキストとして取得
+    // Standard 以上：副業日記のサマリーをコンテキストとして取得
     let diaryContext = "";
-    if (isPremium) {
+    if (isStandardOrAbove) {
       const { data: entries } = await supabase
         .from("diary_entries")
         .select("entry_date, revenue, expense, work_minutes")

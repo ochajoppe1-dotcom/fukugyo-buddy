@@ -304,6 +304,13 @@ export default function Home() {
             </Link>
             <span className="text-gray-300">/</span>
             <Link
+              href="/contact"
+              className="hover:text-emerald-600 transition-colors"
+            >
+              お問い合わせ
+            </Link>
+            <span className="text-gray-300">/</span>
+            <Link
               href="/terms"
               className="hover:text-emerald-600 transition-colors"
             >

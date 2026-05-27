@@ -82,6 +82,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.5,
     },
+    {
+      url: `${SITE_URL}/contact`,
+      lastModified,
+      changeFrequency: "monthly",
+      priority: 0.4,
+    },
+    {
+      url: `${SITE_URL}/reset-password`,
+      lastModified,
+      changeFrequency: "yearly",
+      priority: 0.2,
+    },
     // 法的ページ
     {
       url: `${SITE_URL}/privacy`,

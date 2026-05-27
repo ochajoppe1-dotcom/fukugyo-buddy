@@ -17,7 +17,11 @@ const FAQ_GROUPS = [
       },
       {
         q: "Standard と Premium の違いは？",
-        a: "Standard（¥550/月）は LP診断無制限・AI相談月20回・適性診断・副業日記・数字レポート・詐欺アラートが使えます。Premium（¥990/月）は加えて、AI相談無制限・全記憶、AI副業ロードマップ、AI実務サポート、緊急時テンプレ生成が使えます。",
+        a: "Standard（¥550/月）は副業を「始めて続ける」ためのプランです：LP診断無制限・AI相談月20回（日記の数字を踏まえた回答可）・適性診断・副業日記・数字レポート月1回・詐欺アラートが使えます。Premium（¥990/月）は「本業化を目指す人向け」のプランで、Standardに加えてAI相談無制限+会話の全記憶、レポート月4回、AI副業ロードマップ、AI実務サポート、緊急時テンプレ生成が使えます。",
+      },
+      {
+        q: "AI相談で自分の日記データはどこまで使われますか？",
+        a: "Standard以上のプランでは、AI相談中にあなたの副業日記の累計データ（売上・経費・時間・時給）が参考情報としてAIに渡され、より具体的な返答が可能になります。Premium はさらに過去の会話内容も記憶されるため、相談履歴を踏まえた継続的な伴走が可能です。",
       },
       {
         q: "本当に7日間無料ですか？",
@@ -71,15 +75,15 @@ const FAQ_GROUPS = [
       },
       {
         q: "パスワードを忘れた",
-        a: "ログイン画面の「パスワードを忘れた方」リンク（実装予定）または、fukugyo.buddy.ai@gmail.com までご連絡ください。",
+        a: "ログイン画面の「パスワードを忘れた方」リンクをクリックし、登録メールアドレスを入力してください。リセット用リンクをメールでお送りします。",
       },
       {
         q: "メールアドレスを変更したい",
-        a: "現状は管理画面からの変更機能はありません。fukugyo.buddy.ai@gmail.com までご連絡ください。",
+        a: "マイページのアカウント情報セクションにある「編集」ボタンから変更できます。新しいメールアドレスに確認メールが届くので、リンクをクリックして完了させてください。",
       },
       {
         q: "副業日記のデータをエクスポートしたい",
-        a: "現状はエクスポート機能を準備中です。お急ぎの場合は fukugyo.buddy.ai@gmail.com までご連絡ください。CSV形式でお送りします。",
+        a: "副業日記ページ（/diary）の上部にある「CSVでダウンロード」ボタンから、全データをCSV形式でダウンロードできます。Excel・Googleスプレッドシート等で開けます。Standardプラン以上で利用可能。",
       },
     ],
   },
@@ -92,7 +96,7 @@ const FAQ_GROUPS = [
       },
       {
         q: "決済できない・課金が反映されない",
-        a: "Stripe側で処理されたが当サービスに反映されない場合があります。マイページが Free のままでお困りの場合は、決済日時とメールアドレスを添えて fukugyo.buddy.ai@gmail.com までご連絡ください。",
+        a: "Stripe側で処理されたが当サービスに反映されない場合があります。お問い合わせフォーム（/contact）でカテゴリ「課金トラブル」を選び、決済日時とメールアドレスを添えてご連絡ください。通常2〜3営業日以内にお返事します。",
       },
       {
         q: "スマホアプリ版はありますか？",
@@ -151,15 +155,14 @@ export default function HelpPage() {
               💬 解決しない場合
             </h2>
             <p className="text-sm text-gray-700 leading-relaxed mb-3">
-              上記で解決しないお問い合わせは、下記までメールでご連絡ください。
-              なるべく早くお返事します。
+              上記で解決しないお問い合わせは、お問い合わせフォームをご利用ください。通常2〜3営業日以内にお返事します。
             </p>
-            <a
-              href="mailto:fukugyo.buddy.ai@gmail.com"
-              className="inline-flex items-center gap-2 text-emerald-700 font-medium text-sm hover:underline"
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-2 bg-emerald-600 text-white px-4 py-2 rounded-xl text-sm font-medium hover:bg-emerald-700 transition-colors"
             >
-              📧 fukugyo.buddy.ai@gmail.com
-            </a>
+              お問い合わせフォームへ →
+            </Link>
           </div>
         </div>
       </section>

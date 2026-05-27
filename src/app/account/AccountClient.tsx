@@ -43,6 +43,30 @@ export default function AccountClient({
   const searchParams = useSearchParams();
   const toast = useToast();
   const [portalLoading, setPortalLoading] = useState(false);
+  const [editingEmail, setEditingEmail] = useState(false);
+  const [newEmail, setNewEmail] = useState("");
+  const [emailLoading, setEmailLoading] = useState(false);
+  const [emailSent, setEmailSent] = useState(false);
+
+  const handleChangeEmail = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newEmail.trim() || emailLoading) return;
+    setEmailLoading(true);
+    try {
+      const supabase = createClient();
+      const { error } = await supabase.auth.updateUser({ email: newEmail });
+      if (error) {
+        toast.show(error.message || "変更に失敗しました", "error");
+      } else {
+        setEmailSent(true);
+        toast.show("確認メールを送信しました", "success");
+      }
+    } catch {
+      toast.show("通信エラーが発生しました", "error");
+    } finally {
+      setEmailLoading(false);
+    }
+  };
 
   const checkoutStatus = searchParams.get("checkout");
 
@@ -80,13 +104,66 @@ export default function AccountClient({
 
       {/* アカウント情報 */}
       <div className="bg-white rounded-2xl border border-gray-100 p-5">
-        <h2 className="text-sm font-bold text-gray-700 mb-3">アカウント情報</h2>
-        <div className="text-sm text-gray-600">
-          <p className="mb-1">
+        <div className="flex items-center justify-between mb-3">
+          <h2 className="text-sm font-bold text-gray-700">アカウント情報</h2>
+          {!editingEmail && (
+            <button
+              onClick={() => {
+                setEditingEmail(true);
+                setNewEmail(initialEmail ?? "");
+              }}
+              className="text-xs text-emerald-600 hover:text-emerald-700 font-medium"
+            >
+              編集
+            </button>
+          )}
+        </div>
+        {!editingEmail ? (
+          <p className="text-sm text-gray-600">
             <span className="text-gray-400">メール：</span>
             {initialEmail ?? "未登録"}
           </p>
-        </div>
+        ) : emailSent ? (
+          <div className="bg-emerald-50 border border-emerald-100 rounded-xl p-3 text-xs text-emerald-800 leading-relaxed">
+            ✓ <strong>{newEmail}</strong> に確認メールを送信しました。
+            <br />
+            メール内のリンクをクリックすると変更が完了します。
+          </div>
+        ) : (
+          <form onSubmit={handleChangeEmail} className="space-y-2">
+            <p className="text-xs text-gray-500">
+              新しいメールアドレスに確認メールが送られます。
+            </p>
+            <input
+              type="email"
+              value={newEmail}
+              onChange={(e) => setNewEmail(e.target.value)}
+              placeholder="new@example.com"
+              required
+              className="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-emerald-500"
+            />
+            <div className="flex gap-2">
+              <button
+                type="submit"
+                disabled={emailLoading || !newEmail.trim() || newEmail === initialEmail}
+                className="flex-1 bg-emerald-600 text-white py-2 rounded-xl text-sm font-medium hover:bg-emerald-700 transition-colors disabled:opacity-50"
+              >
+                {emailLoading ? "送信中..." : "変更"}
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setEditingEmail(false);
+                  setNewEmail("");
+                  setEmailSent(false);
+                }}
+                className="px-4 py-2 border border-gray-300 text-gray-600 rounded-xl text-sm font-medium hover:bg-gray-50"
+              >
+                キャンセル
+              </button>
+            </div>
+          </form>
+        )}
       </div>
 
       {/* 解約予定バナー */}

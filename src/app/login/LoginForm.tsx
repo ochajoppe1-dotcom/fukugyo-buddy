@@ -146,6 +146,17 @@ export default function LoginForm() {
         </button>
       </form>
 
+      {mode === "login" && (
+        <p className="text-xs text-center mt-4">
+          <a
+            href="/reset-password"
+            className="text-emerald-600 hover:text-emerald-700 hover:underline"
+          >
+            パスワードを忘れた方
+          </a>
+        </p>
+      )}
+
       <p className="text-xs text-gray-400 text-center mt-6 leading-relaxed">
         副業日記の利用には登録が必要です。
         <br />
