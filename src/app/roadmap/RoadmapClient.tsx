@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import AiReportButton from "../components/AiReportButton";
 
 type Phase = {
   title: string;
@@ -140,6 +141,13 @@ export default function RoadmapClient({
         >
           別の条件でもう一度作成する
         </button>
+
+        <div className="text-right">
+          <AiReportButton
+            feature="AI副業ロードマップ"
+            output={JSON.stringify(result, null, 2)}
+          />
+        </div>
       </div>
     );
   }

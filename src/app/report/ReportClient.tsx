@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import AiReportButton from "../components/AiReportButton";
 
 type Stats = {
   monthKey: string;
@@ -276,6 +277,13 @@ export default function ReportClient({
         >
           閉じる
         </button>
+
+        <div className="text-right">
+          <AiReportButton
+            feature="数字まるわかりレポート"
+            output={JSON.stringify(report, null, 2)}
+          />
+        </div>
       </div>
     );
   }

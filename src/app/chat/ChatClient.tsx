@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import AiReportButton from "../components/AiReportButton";
 
 type Message = {
   role: "assistant" | "user";
@@ -179,6 +180,11 @@ export default function ChatClient({
               <p className="text-sm whitespace-pre-wrap leading-relaxed">
                 {msg.content}
               </p>
+              {msg.role === "assistant" && i > 0 && (
+                <div className="mt-1 text-right">
+                  <AiReportButton feature="AI相談" output={msg.content} />
+                </div>
+              )}
             </div>
           </div>
         ))}

@@ -47,6 +47,42 @@ export default function AccountClient({
   const [newEmail, setNewEmail] = useState("");
   const [emailLoading, setEmailLoading] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
+  const [showDelete, setShowDelete] = useState(false);
+  const [deleteConfirm, setDeleteConfirm] = useState("");
+  const [deleting, setDeleting] = useState(false);
+
+  const handleDelete = async () => {
+    if (deleteConfirm !== "アカウントを削除します" || deleting) return;
+    if (
+      !window.confirm(
+        "本当に削除しますか？\n\n・サブスクリプションは自動的に解約されます\n・全データ（日記・チャット履歴・利用記録）が完全に削除されます\n・この操作は取り消せません"
+      )
+    )
+      return;
+
+    setDeleting(true);
+    try {
+      const res = await fetch("/api/account/delete", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ confirm: deleteConfirm }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        toast.show("アカウントを削除しました。ご利用ありがとうございました。", "success");
+        // 完全削除後にトップへ
+        setTimeout(() => {
+          window.location.href = "/";
+        }, 1500);
+      } else {
+        toast.show(data.error || "削除に失敗しました", "error");
+        setDeleting(false);
+      }
+    } catch {
+      toast.show("通信エラーが発生しました", "error");
+      setDeleting(false);
+    }
+  };
 
   const handleChangeEmail = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -233,6 +269,65 @@ export default function AccountClient({
         >
           ログアウト
         </button>
+      </div>
+
+      {/* 危険ゾーン（アカウント削除） */}
+      <div className="mt-12 pt-6 border-t border-gray-200">
+        {!showDelete ? (
+          <button
+            onClick={() => setShowDelete(true)}
+            className="w-full text-xs text-red-500 hover:text-red-700 transition-colors py-2"
+          >
+            アカウントを削除する
+          </button>
+        ) : (
+          <div className="bg-red-50 border border-red-200 rounded-2xl p-5">
+            <h3 className="text-sm font-bold text-red-700 mb-2">
+              ⚠ アカウント削除（取り消し不可）
+            </h3>
+            <p className="text-xs text-red-700 leading-relaxed mb-3">
+              以下が即座に実行されます：
+            </p>
+            <ul className="text-xs text-red-700 space-y-1 mb-4 pl-4">
+              <li>・サブスクリプションの自動解約</li>
+              <li>・副業日記・チャット履歴・利用回数・購読情報の完全削除</li>
+              <li>・ログイン情報の削除</li>
+            </ul>
+            <p className="text-xs text-red-700 mb-3">
+              削除前に <a href="/api/diary/export" className="underline font-medium">副業日記のCSVバックアップ</a> をおすすめします。
+            </p>
+            <label className="block text-xs font-bold text-red-700 mb-1.5">
+              確認のため「アカウントを削除します」と入力してください
+            </label>
+            <input
+              type="text"
+              value={deleteConfirm}
+              onChange={(e) => setDeleteConfirm(e.target.value)}
+              placeholder="アカウントを削除します"
+              disabled={deleting}
+              className="w-full border border-red-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-red-500 mb-3"
+            />
+            <div className="flex gap-2">
+              <button
+                onClick={handleDelete}
+                disabled={deleteConfirm !== "アカウントを削除します" || deleting}
+                className="flex-1 bg-red-600 text-white py-2.5 rounded-xl text-sm font-medium hover:bg-red-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+              >
+                {deleting ? "削除中..." : "削除する"}
+              </button>
+              <button
+                onClick={() => {
+                  setShowDelete(false);
+                  setDeleteConfirm("");
+                }}
+                disabled={deleting}
+                className="px-4 py-2.5 border border-gray-300 text-gray-700 rounded-xl text-sm font-medium hover:bg-white disabled:opacity-50"
+              >
+                やめる
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

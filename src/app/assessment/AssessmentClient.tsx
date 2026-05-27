@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { questions } from "./questions";
+import AiReportButton from "../components/AiReportButton";
 
 type Result = {
   summary: string;
@@ -206,6 +207,13 @@ export default function AssessmentClient() {
         >
           もう一度診断する
         </button>
+
+        <div className="text-right mt-3">
+          <AiReportButton
+            feature="適性診断"
+            output={JSON.stringify(result, null, 2)}
+          />
+        </div>
       </div>
     );
   }

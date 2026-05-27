@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useToast } from "../components/Toast";
+import AiReportButton from "../components/AiReportButton";
 
 type Result = {
   subject: string;
@@ -171,6 +172,13 @@ export default function EmergencyClient({
         >
           別の状況でもう一度生成する
         </button>
+
+        <div className="text-right">
+          <AiReportButton
+            feature="緊急時テンプレ生成"
+            output={JSON.stringify(result, null, 2)}
+          />
+        </div>
       </div>
     );
   }

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useToast } from "../components/Toast";
+import AiReportButton from "../components/AiReportButton";
 
 type Result = {
   title: string;
@@ -167,6 +168,13 @@ export default function SupportClient({
         >
           別の文章を作成する
         </button>
+
+        <div className="text-right">
+          <AiReportButton
+            feature="AI実務サポート"
+            output={JSON.stringify(result, null, 2)}
+          />
+        </div>
       </div>
     );
   }

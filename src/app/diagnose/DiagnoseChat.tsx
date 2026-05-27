@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import AiReportButton from "../components/AiReportButton";
 
 type Message = {
   role: "assistant" | "user";
@@ -223,6 +224,13 @@ export default function DiagnoseChat() {
               <p className="text-sm text-gray-700 leading-relaxed">
                 {result.recommendation}
               </p>
+            </div>
+
+            <div className="mt-3 text-right">
+              <AiReportButton
+                feature="LP診断"
+                output={JSON.stringify(result, null, 2)}
+              />
             </div>
           </div>
         )}

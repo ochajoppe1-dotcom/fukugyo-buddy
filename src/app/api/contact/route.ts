@@ -16,12 +16,15 @@ export async function POST(req: NextRequest) {
   try {
     const { category, subject, body, email } = await req.json();
 
-    if (!subject?.trim() || !body?.trim() || !email?.trim()) {
+    if (!subject?.trim() || !body?.trim()) {
       return NextResponse.json(
-        { error: "件名・本文・メールアドレスは必須です" },
+        { error: "件名・本文は必須です" },
         { status: 400 }
       );
     }
+
+    // メールアドレスが空の場合（AI報告等）はログインユーザーのものを使う or ダミー
+    const finalEmail = email?.trim() || "no-reply@local";
 
     if (!VALID_CATEGORIES.includes(category as Category)) {
       return NextResponse.json(
@@ -53,7 +56,7 @@ export async function POST(req: NextRequest) {
 
     const { error } = await admin.from("support_tickets").insert({
       user_id: user?.id ?? null,
-      email,
+      email: finalEmail,
       category,
       subject,
       body,
