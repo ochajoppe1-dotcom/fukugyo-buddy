@@ -26,21 +26,21 @@ export const stripe = new Proxy({} as Stripe, {
   },
 });
 
-// プラン定義
+// プラン定義（2026-05-28 確定価格）
 export const PLANS = {
   standard: {
     name: "Standard",
     get priceId() {
       return process.env.STRIPE_PRICE_ID_STANDARD || "";
     },
-    amount: 550,
+    amount: 980,
   },
   premium: {
     name: "Premium",
     get priceId() {
       return process.env.STRIPE_PRICE_ID_PREMIUM || "";
     },
-    amount: 990,
+    amount: 1980,
   },
 } as const;
 

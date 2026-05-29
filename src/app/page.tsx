@@ -116,24 +116,36 @@ const featureGroups: FeatureGroup[] = [
     badge: "free",
     items: [
       {
-        href: "/diagnose",
+        href: "/diagnose-self",
         icon: <IconShield />,
-        title: "LP診断",
-        description: "副業教材の販売ページをAIが対話形式で診断（月3回）",
+        title: "LP診断（セルフチェック版）",
+        description: "副業教材LPの危険度を27項目で自動判定",
       },
       {
-        href: "/chat",
-        icon: <IconMessage />,
-        title: "AI相談",
-        description: "副業の悩みを24時間チャットで相談（月3回）",
+        href: "/assessment-self",
+        icon: <IconCompass />,
+        title: "適性診断（パターン判定版）",
+        description: "15問の回答からあなたに向いた副業タイプを判定",
       },
     ],
   },
   {
     title: "副業を続けるための機能",
-    subtitle: "Standardプラン（¥550/月）に含まれる",
+    subtitle: "Standardプラン（¥980/月）に含まれる",
     badge: "standard",
     items: [
+      {
+        href: "/diagnose",
+        icon: <IconShield />,
+        title: "LP診断（AI対話版）",
+        description: "AIとの対話で副業教材の危険度を詳細診断（月10回）",
+      },
+      {
+        href: "/chat",
+        icon: <IconMessage />,
+        title: "AI相談",
+        description: "副業の悩みを24時間チャット（Std月10/Prm月25）",
+      },
       {
         href: "/diary",
         icon: <IconBook />,
@@ -149,8 +161,8 @@ const featureGroups: FeatureGroup[] = [
       {
         href: "/assessment",
         icon: <IconCompass />,
-        title: "適性診断",
-        description: "15の質問で、あなたに向いた副業をAIが提案",
+        title: "適性診断（AI診断版）",
+        description: "AIが向いてる副業TOP3を理由付きで提案（月5回）",
       },
       {
         href: "/alerts",
@@ -162,7 +174,7 @@ const featureGroups: FeatureGroup[] = [
   },
   {
     title: "本業化を目指す人のための機能",
-    subtitle: "Premiumプラン（¥990/月）だけの専属サポート",
+    subtitle: "Premiumプラン（¥1,980/月）だけの専属サポート",
     badge: "premium",
     items: [
       {

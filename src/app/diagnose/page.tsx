@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { checkUsage } from "@/lib/usage";
+import { checkUsage, getUserPlan } from "@/lib/usage";
 import DiagnoseChat from "./DiagnoseChat";
 import LockedFeature from "../components/LockedFeature";
 
@@ -24,7 +24,13 @@ export default async function DiagnosePage() {
     redirect("/login");
   }
 
-  // 利用回数情報を取得（Free=3回、Standard+=無制限）
+  // Free プランは AI版ではなく静的版へ
+  const plan = await getUserPlan(supabase, user.id);
+  if (plan === "free") {
+    redirect("/diagnose-self");
+  }
+
+  // 利用回数情報を取得（Standard月10/Premium月10）
   const usage = await checkUsage(supabase, user.id, "lp_diagnose");
 
   const header = (
@@ -67,7 +73,7 @@ export default async function DiagnosePage() {
     </header>
   );
 
-  // Free で上限到達
+  // 上限到達（Standard/Premium で上限超え）
   if (!usage.allowed && usage.reason === "limit_exceeded") {
     return (
       <main className="flex-1 flex flex-col">
@@ -75,8 +81,8 @@ export default async function DiagnosePage() {
         <section className="flex-1">
           <LockedFeature
             featureName={`LP診断（今月の上限 ${usage.limit} 回に到達）`}
-            description="Standard プランなら無制限でLP診断が使えます。情報商材を買う前のチェックに、何度でもご利用ください。"
-            requiredPlan="Standard"
+            description="今月のAI版LP診断は上限に達しました。来月までお待ちいただくか、無料のセルフチェック版（/diagnose-self）もご利用いただけます。"
+            requiredPlan={plan === "standard" ? "Premium" : "Premium"}
           />
         </section>
       </main>

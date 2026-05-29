@@ -4,7 +4,6 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getUserPlan } from "@/lib/usage";
 import AssessmentClient from "./AssessmentClient";
-import LockedFeature from "../components/LockedFeature";
 
 export const dynamic = "force-dynamic";
 
@@ -25,6 +24,11 @@ export default async function AssessmentPage() {
   }
 
   const plan = await getUserPlan(supabase, user.id);
+
+  // Free プランは AI版ではなく静的版へ
+  if (plan === "free") {
+    redirect("/assessment-self");
+  }
 
   const header = (
     <header className="border-b border-gray-100 bg-white">
@@ -56,21 +60,6 @@ export default async function AssessmentPage() {
       </div>
     </header>
   );
-
-  if (plan === "free") {
-    return (
-      <main className="flex-1 flex flex-col">
-        {header}
-        <section className="flex-1">
-          <LockedFeature
-            featureName="副業適性診断"
-            description="15の質問に答えるとAIがあなたに向いた副業を提案します。"
-            requiredPlan="Standard"
-          />
-        </section>
-      </main>
-    );
-  }
 
   return (
     <main className="flex-1 flex flex-col">

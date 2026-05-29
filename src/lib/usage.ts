@@ -15,46 +15,48 @@ export type Feature =
 
 // 機能 × プランの上限定義
 // null = アクセス不可、Infinity = 無制限
+// 副業バディAI 最終価格構成（2026-05-28 確定）
+// Free は AI を完全に抜く（永続性最優先・静的版で代替）
 const LIMITS: Record<Feature, Record<Plan, number | null>> = {
   lp_diagnose: {
-    free: 3,
-    standard: Infinity,
-    premium: Infinity,
+    free: null, // 静的版を別途提供（AI不使用）
+    standard: 10,
+    premium: 10,
   },
   assessment: {
-    free: null, // Freeはアクセス不可
-    standard: Infinity,
-    premium: Infinity,
+    free: null, // 静的版を別途提供（AI不使用）
+    standard: 5,
+    premium: 5,
   },
   ai_chat: {
-    free: 3,
-    standard: 20,
-    premium: Infinity,
+    free: null, // Free は AI 使えない
+    standard: 10,
+    premium: 25,
   },
   diary: {
-    free: null, // Freeはアクセス不可
+    free: null,
     standard: Infinity,
     premium: Infinity,
   },
   report: {
-    free: null, // Freeはアクセス不可
-    standard: 1, // 月1回
-    premium: 4, // 週1相当（月4回）
+    free: null,
+    standard: 1,
+    premium: 2,
   },
   emergency_template: {
     free: null,
     standard: null,
-    premium: 20, // 月20回
+    premium: 10,
   },
   practical_support: {
     free: null,
     standard: null,
-    premium: 30, // 月30回
+    premium: 15,
   },
   roadmap: {
     free: null,
     standard: null,
-    premium: 2, // 月2回（半年ごと再生成想定）
+    premium: 1,
   },
 };
 

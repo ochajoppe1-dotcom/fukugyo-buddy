@@ -20,12 +20,25 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.5,
     },
-    // 機能ページ（ログイン必須だが存在は伝える）
+    // 機能ページ（Free でアクセス可）
+    {
+      url: `${SITE_URL}/diagnose-self`,
+      lastModified,
+      changeFrequency: "weekly",
+      priority: 0.95,
+    },
+    {
+      url: `${SITE_URL}/assessment-self`,
+      lastModified,
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    // 機能ページ（ログイン必須・Standard以上）
     {
       url: `${SITE_URL}/diagnose`,
       lastModified,
       changeFrequency: "weekly",
-      priority: 0.9,
+      priority: 0.85,
     },
     {
       url: `${SITE_URL}/chat`,

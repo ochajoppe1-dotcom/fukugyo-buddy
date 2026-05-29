@@ -33,7 +33,7 @@ export default function TokushohoPage() {
           />
           <Row
             label="販売価格"
-            value="Free：0円／Standard：月額550円（税込）／Premium：月額990円（税込）"
+            value="Free：0円／Standard：月額980円（税込）／Premium：月額1,980円（税込）"
             note="価格は予告なく変更する場合があります。"
           />
           <Row
