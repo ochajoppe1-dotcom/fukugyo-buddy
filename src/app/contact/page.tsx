@@ -1,9 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { createClient } from "@/lib/supabase/server";
 import ContactClient from "./ContactClient";
-
-export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "お問い合わせ",
@@ -11,12 +8,7 @@ export const metadata: Metadata = {
     "副業バディAIへのお問い合わせフォーム。課金トラブル、アカウント関連、バグ報告、データ削除依頼など。",
 };
 
-export default async function ContactPage() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
+export default function ContactPage() {
   return (
     <main className="flex-1 flex flex-col">
       <header className="border-b border-gray-100 bg-white">
@@ -32,7 +24,7 @@ export default async function ContactPage() {
       </header>
 
       <section className="flex-1">
-        <ContactClient initialEmail={user?.email ?? ""} />
+        <ContactClient />
       </section>
     </main>
   );

@@ -11,23 +11,19 @@ const CATEGORIES = [
   { value: "other", label: "💬 その他" },
 ];
 
-export default function ContactClient({
-  initialEmail,
-}: {
-  initialEmail: string;
-}) {
+export default function ContactClient() {
   const toast = useToast();
   const [category, setCategory] = useState("billing");
   const [subject, setSubject] = useState("");
   const [body, setBody] = useState("");
-  const [email, setEmail] = useState(initialEmail);
+  const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (loading) return;
-    if (!subject.trim() || !body.trim() || !email.trim()) return;
+    if (!subject.trim() || !body.trim()) return;
 
     setLoading(true);
     try {
@@ -60,9 +56,15 @@ export default function ContactClient({
           送信しました
         </h2>
         <p className="text-sm text-gray-500 leading-relaxed mb-6">
-          内容を確認のうえ、運営者から{" "}
-          <strong className="text-gray-700">{email}</strong>{" "}
-          までご返信いたします。
+          内容を確認のうえ、運営者が対応いたします。
+          {email && (
+            <>
+              <br />
+              ご返信は{" "}
+              <strong className="text-gray-700">{email}</strong>{" "}
+              までお送りします。
+            </>
+          )}
           <br />
           通常2〜3営業日以内にお返事します。
         </p>
@@ -140,20 +142,24 @@ export default function ContactClient({
 
       <div>
         <label className="block text-sm font-bold text-gray-700 mb-2">
-          返信先メールアドレス <span className="text-red-500">*</span>
+          返信先メールアドレス{" "}
+          <span className="text-gray-400 font-normal">（任意）</span>
         </label>
         <input
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          required
+          placeholder="返信が必要な場合のみ入力（例：you@example.com）"
           className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-emerald-500"
         />
+        <p className="text-xs text-gray-400 mt-1 leading-relaxed">
+          未入力でも送信できます。ログイン中の方はアカウント情報から運営者が確認します。
+        </p>
       </div>
 
       <button
         type="submit"
-        disabled={loading || !subject.trim() || !body.trim() || !email.trim()}
+        disabled={loading || !subject.trim() || !body.trim()}
         className="w-full bg-emerald-600 text-white py-3.5 rounded-xl font-medium hover:bg-emerald-700 transition-colors disabled:opacity-50"
       >
         {loading ? "送信中..." : "送信する"}
