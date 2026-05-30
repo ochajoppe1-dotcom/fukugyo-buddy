@@ -43,6 +43,25 @@ export async function POST(req: NextRequest) {
       process.env.NEXT_PUBLIC_SITE_URL ||
       "http://localhost:3000";
 
+    // 既存の stripe_customer_id が「現在のStripeモード（本番/テスト）」に
+    // 存在するか検証する。テスト→本番切替時など、別モードのIDが残っていると
+    // checkout作成が失敗するため、無効なIDは使わず email から新規作成する。
+    let validCustomerId: string | null = null;
+    if (existingSub?.stripe_customer_id) {
+      try {
+        const customer = await stripe.customers.retrieve(
+          existingSub.stripe_customer_id
+        );
+        // 削除済みでなければ有効
+        if (customer && !("deleted" in customer && customer.deleted)) {
+          validCustomerId = existingSub.stripe_customer_id;
+        }
+      } catch {
+        // No such customer 等 → 無効なので使わない（新規作成にフォールバック）
+        validCustomerId = null;
+      }
+    }
+
     // Checkout セッション作成
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
@@ -61,9 +80,9 @@ export async function POST(req: NextRequest) {
           plan,
         },
       },
-      // 既存顧客は再利用、新規は customer_email で作成
-      ...(existingSub?.stripe_customer_id
-        ? { customer: existingSub.stripe_customer_id }
+      // 有効な既存顧客は再利用、それ以外は email から新規作成
+      ...(validCustomerId
+        ? { customer: validCustomerId }
         : { customer_email: user.email ?? undefined }),
       client_reference_id: user.id,
       metadata: {
