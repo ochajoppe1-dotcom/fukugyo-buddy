@@ -3,8 +3,11 @@ import type { CapacitorConfig } from "@capacitor/cli";
 const config: CapacitorConfig = {
   appId: "ai.fukugyobuddy.app",
   appName: "副業バディAI",
+  // server.url で本番VercelをロードするWebViewラッパー方式。
+  // webDir は cap sync の都合上必須だが、実際には server.url が
+  // 優先ロードされるため中身は接続失敗時のフォールバックのみ。
+  webDir: "android-webdir",
   // Webアプリ(Next.js SSR)をそのままWebViewで表示する戦略
-  // 静的エクスポートではなく、本番Vercelをそのままロードする
   server: {
     url: "https://fukugyo-buddy.vercel.app",
     cleartext: false,
