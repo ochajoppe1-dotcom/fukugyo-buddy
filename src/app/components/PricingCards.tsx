@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useIsNativeApp } from "@/lib/isNativeApp";
 
 type Plan = {
   name: string;
@@ -59,6 +60,7 @@ const plans: Plan[] = [
 
 export default function PricingCards() {
   const router = useRouter();
+  const isNativeApp = useIsNativeApp();
   const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -148,6 +150,13 @@ export default function PricingCards() {
               >
                 ずっと無料
               </button>
+            ) : isNativeApp ? (
+              // アプリ内では決済導線を出さない（Google Play 決済規約対応）
+              <div className="w-full py-2.5 rounded-xl text-xs font-medium border border-gray-200 text-gray-500 text-center leading-relaxed px-2">
+                ご登録・プラン変更は
+                <br />
+                ブラウザ版からお手続きください
+              </div>
             ) : (
               <button
                 onClick={() => handleSubscribe(plan.planKey as "standard" | "premium")}

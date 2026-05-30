@@ -13,6 +13,10 @@ const config: CapacitorConfig = {
   // ローカル開発用に切り替えたい場合は server を以下のように：
   // server: { url: "http://10.0.2.2:3000", cleartext: true },
   android: {
+    // WebView の User-Agent に目印を付与。
+    // フロント側でこの文字列を検知し、アプリ内では課金導線を隠す
+    // （Google Play の決済規約対応：アプリ内でデジタル課金させない）
+    appendUserAgent: "FukugyoBuddyApp",
     buildOptions: {
       keystorePath: undefined, // 本番リリース時に署名証明書を指定
       keystoreAlias: undefined,
