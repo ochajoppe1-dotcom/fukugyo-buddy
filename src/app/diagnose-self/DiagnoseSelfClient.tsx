@@ -6,6 +6,7 @@ import {
   TOTAL_MAX_SCORE,
   getRiskLabel,
 } from "./checklistData";
+import ShareButtons from "../components/ShareButtons";
 
 export default function DiagnoseSelfClient() {
   const [checked, setChecked] = useState<Set<string>>(new Set());
@@ -82,6 +83,13 @@ export default function DiagnoseSelfClient() {
             重みづけスコア: {score} / {TOTAL_MAX_SCORE}
           </p>
         </div>
+
+        {/* シェアボタン（バイラル誘導） */}
+        <ShareButtons
+          text={`副業教材の危険度を無料セルフチェックしてみた📋\n判定：「${risk.label}」（危険度${percent}%）`}
+          hashtags={["副業バディAI", "副業", "副業詐欺対策"]}
+          url="https://fukugyo-buddy.vercel.app/diagnose-self"
+        />
 
         {/* Standard誘導 */}
         <div className="bg-emerald-50 border border-emerald-100 rounded-2xl p-5">

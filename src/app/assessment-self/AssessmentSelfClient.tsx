@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { questions, calculateResult, type PersonaResult } from "./selfData";
+import ShareButtons from "../components/ShareButtons";
 
 export default function AssessmentSelfClient() {
   const [step, setStep] = useState(0);
@@ -127,6 +128,15 @@ export default function AssessmentSelfClient() {
           <p className="text-sm text-gray-700 leading-relaxed">
             {result.advice}
           </p>
+        </div>
+
+        {/* シェアボタン（バイラル誘導） */}
+        <div className="mb-5">
+          <ShareButtons
+            text={`副業適性診断やってみた🧭\n私のタイプは「${result.persona}」でした！`}
+            hashtags={["副業バディAI", "副業適性診断", "副業"]}
+            url="https://fukugyo-buddy.vercel.app/assessment-self"
+          />
         </div>
 
         {/* Standard誘導 */}
