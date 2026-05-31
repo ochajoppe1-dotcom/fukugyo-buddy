@@ -309,6 +309,13 @@ export default function Home() {
         <div className="max-w-5xl mx-auto text-center space-y-3">
           <div className="flex items-center justify-center gap-4 text-xs text-gray-500 flex-wrap">
             <Link
+              href="/blog"
+              className="hover:text-emerald-600 transition-colors"
+            >
+              お役立ち記事
+            </Link>
+            <span className="text-gray-300">/</span>
+            <Link
               href="/help"
               className="hover:text-emerald-600 transition-colors"
             >
