@@ -1,5 +1,6 @@
 import Link from "next/link";
 import PricingCards from "./components/PricingCards";
+import ReviewPrompt from "./components/ReviewPrompt";
 
 // シンプルな線アイコン（Lucide風）
 function IconShield() {
@@ -353,6 +354,9 @@ export default function Home() {
           <p className="text-sm text-gray-400">© 2026 副業バディAI</p>
         </div>
       </footer>
+
+      {/* アプリ版でのみ表示：ストアレビュー誘導（一度閉じたら出ない） */}
+      <ReviewPrompt />
     </main>
   );
 }
