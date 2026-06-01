@@ -3,29 +3,33 @@
     android:height="108dp"
     android:viewportHeight="108"
     android:viewportWidth="108">
-    <!-- 副業バディAI 新芽×吹き出しマーク -->
-    <!-- 内側セーフエリア（72dp）中心に配置。背景は緑（ic_launcher_background） -->
-    <!-- 吹き出し本体（白） -->
+    <!-- 副業バディAI 土＋新芽＋AIスパークマーク -->
+    <!-- 背景は生成り（ic_launcher_background）。内側セーフエリア中心に配置 -->
+    <!-- 土（茶） -->
     <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M36,22 h36 a16,16 0 0 1 16,16 v20 a16,16 0 0 1 -16,16 h-36 a16,16 0 0 1 -16,-16 v-20 a16,16 0 0 1 16,-16 z" />
-    <!-- 吹き出しのしっぽ（白） -->
-    <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M41,72 L36,90 L57,73 Z" />
-    <!-- 新芽の茎（緑） -->
+        android:fillColor="#A0653C"
+        android:pathData="M21,85 C21,75 35,71 54,71 C73,71 87,75 87,85 Z" />
+    <!-- 茎（黄緑） -->
     <path
         android:fillColor="#00000000"
-        android:strokeColor="#059669"
+        android:strokeColor="#7CB342"
         android:strokeWidth="4.5"
         android:strokeLineCap="round"
-        android:pathData="M54,67 L54,44" />
-    <!-- 左の葉（緑） -->
+        android:pathData="M54,71 L54,47" />
+    <!-- 左の葉（黄緑） -->
     <path
-        android:fillColor="#059669"
-        android:pathData="M53,53 C44,54 38,48 37,37 C47,36 53,43 53,53 Z" />
-    <!-- 右の葉（緑） -->
+        android:fillColor="#7CB342"
+        android:pathData="M53,55 C44,56 38,51 37,41 C47,40 53,46 53,55 Z" />
+    <!-- 右の葉（黄緑） -->
     <path
-        android:fillColor="#059669"
-        android:pathData="M55,48 C64,49 70,43 71,32 C61,31 55,38 55,48 Z" />
+        android:fillColor="#7CB342"
+        android:pathData="M55,52 C64,53 70,47 71,38 C61,37 55,42 55,52 Z" />
+    <!-- AIスパーク 大（黄） -->
+    <path
+        android:fillColor="#FFC107"
+        android:pathData="M74,22 L75.8,27 L81,29 L75.8,31 L74,36 L72.2,31 L67,29 L72.2,27 Z" />
+    <!-- AIスパーク 小（黄） -->
+    <path
+        android:fillColor="#FFC107"
+        android:pathData="M84,38 L85,41 L88,42 L85,43 L84,46 L83,43 L80,42 L83,41 Z" />
 </vector>
