@@ -100,6 +100,7 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
+  viewportFit: "cover",
 };
 
 export default function RootLayout({
@@ -112,7 +113,7 @@ export default function RootLayout({
       lang="ja"
       className={`${rounded.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col pb-16">
+      <body className="min-h-full flex flex-col pb-[calc(4rem+env(safe-area-inset-bottom))]">
         <ToastProvider>
           {children}
           <BottomNav />

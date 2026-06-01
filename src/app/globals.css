@@ -11,12 +11,20 @@
   --font-sans: var(--font-rounded);
 }
 
+html {
+  /* ノッチ・ステータスバー周りやオーバースクロール時に白帯が出ないよう、
+     背景色を最上位要素にも適用（全面表示対策） */
+  background: var(--background);
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-rounded), "Hiragino Maru Gothic ProN",
     "Hiragino Sans", -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
+  /* モバイルのアドレスバー変動に追従して画面いっぱいに表示（100vhのズレ対策） */
+  min-height: 100dvh;
 }
 
 /* Toast notification animation */

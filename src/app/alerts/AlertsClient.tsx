@@ -118,9 +118,6 @@ export default function AlertsClient({ alerts }: { alerts: Alert[] }) {
               <span className="text-xs px-2 py-0.5 rounded-full bg-red-50 text-red-600 font-medium">
                 {alert.category}
               </span>
-              <span className="text-xs text-gray-400">
-                {alert.publishedAt}
-              </span>
             </div>
 
             <h2 className="text-base font-bold text-gray-900 mb-2 leading-relaxed">

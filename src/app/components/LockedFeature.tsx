@@ -48,7 +48,7 @@ export default function LockedFeature({
             <li>・副業日記</li>
             <li>・数字まるわかりレポート</li>
             <li>・AI進捗コーチング 月次</li>
-            <li>・詐欺アラート 週1</li>
+            <li>・詐欺アラート（パターン集・随時更新）</li>
           </ul>
         ) : (
           <ul className="text-xs text-gray-600 space-y-1.5">

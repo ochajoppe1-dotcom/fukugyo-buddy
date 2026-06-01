@@ -168,7 +168,7 @@ const featureGroups: FeatureGroup[] = [
         href: "/alerts",
         icon: <IconAlert />,
         title: "詐欺アラート",
-        description: "副業詐欺の典型パターンと注意ポイントを定期配信",
+        description: "副業詐欺の典型パターンと注意ポイントをまとめて掲載（随時更新）",
       },
     ],
   },

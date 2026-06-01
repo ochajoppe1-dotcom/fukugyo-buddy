@@ -10,9 +10,9 @@ import { ALERTS } from "./alertsData";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "詐欺アラート - 副業詐欺の典型パターンを定期配信",
+  title: "詐欺アラート - 副業詐欺の典型パターン集",
   description:
-    "情報商材詐欺、SNS勧誘、面談営業、月商と月利の混同など、副業詐欺の典型パターンを業界全体の傾向としてまとめて配信。Standardプラン以上。",
+    "情報商材詐欺、SNS勧誘、面談営業、月商と月利の混同など、副業詐欺の典型パターンを業界全体の傾向としてまとめた資料集。随時更新。Standardプラン以上。",
 };
 
 export default async function AlertsPage() {
@@ -66,7 +66,7 @@ export default async function AlertsPage() {
         <section className="flex-1">
           <LockedFeature
             featureName="詐欺アラート"
-            description="副業詐欺・情報商材の典型的な手口を、業界全体の傾向としてAIがまとめて配信。被害に遭ってからでは遅い、購入前のチェック資料として活用してください。"
+            description="副業詐欺・情報商材の典型的な手口を、業界全体の傾向としてまとめた資料集。被害に遭ってからでは遅い、購入前のチェック資料として活用してください。"
             requiredPlan="Standard"
           />
         </section>
