@@ -142,17 +142,20 @@ export default function AssessmentSelfClient() {
         {/* Standard誘導 */}
         <div className="bg-white rounded-2xl border border-gray-100 p-5 mb-5">
           <h3 className="text-sm font-bold text-gray-900 mb-2">
-            🤖 もっと詳しい AI診断もあります
+            🤖 AI版なら、あなた専用の提案まで
           </h3>
           <p className="text-xs text-gray-600 leading-relaxed mb-3">
-            Standardプラン以上では、AIが個別の回答パターンを深く読み解いて、TOP3副業を理由付きで提案します。月5回まで何度でも再診断できます。
+            このセルフ診断はパターン判定ですが、<strong>Standardプラン</strong>のAI適性診断なら、あなたの回答を読み解いて向いている副業TOP3を理由付きで提案。月5回まで何度でも試せます。
           </p>
           <a
             href="/#pricing"
-            className="inline-block bg-emerald-600 text-white text-sm px-4 py-2 rounded-xl font-medium hover:bg-emerald-700 transition-colors"
+            className="inline-block bg-emerald-600 text-white text-sm px-5 py-2.5 rounded-xl font-bold hover:bg-emerald-700 transition-colors"
           >
-            プランを見る →
+            7日間無料で試す →
           </a>
+          <p className="text-xs text-gray-400 mt-2">
+            初回7日間無料 ／ いつでも解約できます
+          </p>
         </div>
 
         <button

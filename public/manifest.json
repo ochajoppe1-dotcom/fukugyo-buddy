@@ -1,7 +1,7 @@
 {
   "name": "副業バディAI - あなたの副業を、AIが伴走します",
   "short_name": "副業バディAI",
-  "description": "副業のLP診断、AI相談、副業日記まで。副業詐欺被害者本人が運営する、AI完結の副業安全パートナー。",
+  "description": "副業のLP診断、AI相談、副業日記まで。情報商材・副業詐欺のリスクから守る、AI完結の副業安全パートナー。",
   "start_url": "/",
   "display": "standalone",
   "orientation": "portrait",

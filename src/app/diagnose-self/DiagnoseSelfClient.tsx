@@ -94,19 +94,22 @@ export default function DiagnoseSelfClient() {
         {/* Standard誘導 */}
         <div className="bg-emerald-50 border border-emerald-100 rounded-2xl p-5">
           <h3 className="text-sm font-bold text-emerald-700 mb-2">
-            🤖 もっと深く知りたい場合
+            🤖 AI版なら「なぜ危険か」まで一緒に整理
           </h3>
           <p className="text-sm text-gray-700 leading-relaxed mb-3">
-            AIによる対話形式の詳細診断（27項目に加えて個別の文脈や販売者特性も考慮）は{" "}
+            このセルフ診断は27項目のチェックですが、{" "}
             <strong>Standardプラン</strong>{" "}
-            でご利用いただけます。教材ごとに「これは具体的に何が問題か」を一緒に整理できます。
+            のAI診断なら、検討中の教材について「具体的にどこが危険か」「どう判断すべきか」を対話形式で深掘りできます。
           </p>
           <a
             href="/#pricing"
-            className="inline-block bg-emerald-600 text-white text-sm px-4 py-2 rounded-xl font-medium hover:bg-emerald-700 transition-colors"
+            className="inline-block bg-emerald-600 text-white text-sm px-5 py-2.5 rounded-xl font-bold hover:bg-emerald-700 transition-colors"
           >
-            プランを見る →
+            7日間無料でAIに相談する →
           </a>
+          <p className="text-xs text-gray-400 mt-2">
+            初回7日間無料 ／ いつでも解約できます
+          </p>
         </div>
 
         {/* 再診断 */}

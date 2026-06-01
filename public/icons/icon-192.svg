@@ -1,5 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192">
+  <!-- 副業バディAI 新芽×吹き出し（相談で副業が芽吹く） -->
   <rect width="192" height="192" rx="40" fill="#059669"/>
-  <path d="M96 38 L142 56 V100 C142 134 96 156 96 156 C96 156 50 134 50 100 V56 Z" fill="none" stroke="white" stroke-width="9" stroke-linejoin="round"/>
-  <path d="M78 98 l13 13 l25 -27" fill="none" stroke="white" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- 吹き出し本体（白） -->
+  <rect x="36" y="40" width="120" height="92" rx="30" fill="#ffffff"/>
+  <!-- 吹き出しのしっぽ（白） -->
+  <path d="M72 128 L62 160 L104 126 Z" fill="#ffffff"/>
+  <!-- 新芽の茎（緑） -->
+  <path d="M96 118 L96 78" fill="none" stroke="#059669" stroke-width="8" stroke-linecap="round"/>
+  <!-- 左の葉（緑） -->
+  <path d="M95 92 C77 94 65 83 64 64 C82 63 94 73 95 92 Z" fill="#059669"/>
+  <!-- 右の葉（緑） -->
+  <path d="M97 86 C115 88 127 77 128 58 C110 57 98 67 97 86 Z" fill="#059669"/>
 </svg>

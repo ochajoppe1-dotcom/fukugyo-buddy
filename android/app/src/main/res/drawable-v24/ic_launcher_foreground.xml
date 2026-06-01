@@ -3,19 +3,29 @@
     android:height="108dp"
     android:viewportHeight="108"
     android:viewportWidth="108">
-    <!-- 副業バディAI 盾＋チェック マーク -->
-    <!-- 内側のセーフエリア（72dp）の中央に配置 -->
+    <!-- 副業バディAI 新芽×吹き出しマーク -->
+    <!-- 内側セーフエリア（72dp）中心に配置。背景は緑（ic_launcher_background） -->
+    <!-- 吹き出し本体（白） -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M36,22 h36 a16,16 0 0 1 16,16 v20 a16,16 0 0 1 -16,16 h-36 a16,16 0 0 1 -16,-16 v-20 a16,16 0 0 1 16,-16 z" />
+    <!-- 吹き出しのしっぽ（白） -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M41,72 L36,90 L57,73 Z" />
+    <!-- 新芽の茎（緑） -->
     <path
         android:fillColor="#00000000"
-        android:strokeColor="#FFFFFF"
-        android:strokeWidth="5"
-        android:strokeLineJoin="round"
-        android:pathData="M54,28 L82,38 V62 C82,82 54,94 54,94 C54,94 26,82 26,62 V38 Z" />
-    <path
-        android:fillColor="#00000000"
-        android:strokeColor="#FFFFFF"
-        android:strokeWidth="5"
+        android:strokeColor="#059669"
+        android:strokeWidth="4.5"
         android:strokeLineCap="round"
-        android:strokeLineJoin="round"
-        android:pathData="M44,60 l8,8 l16,-18" />
+        android:pathData="M54,67 L54,44" />
+    <!-- 左の葉（緑） -->
+    <path
+        android:fillColor="#059669"
+        android:pathData="M53,53 C44,54 38,48 37,37 C47,36 53,43 53,53 Z" />
+    <!-- 右の葉（緑） -->
+    <path
+        android:fillColor="#059669"
+        android:pathData="M55,48 C64,49 70,43 71,32 C61,31 55,38 55,48 Z" />
 </vector>
