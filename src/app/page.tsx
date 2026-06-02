@@ -98,6 +98,16 @@ function PlanBadge({ plan }: { plan: "free" | "standard" | "premium" }) {
   );
 }
 
+function IconLayers() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="m12 2 9 5-9 5-9-5 9-5z" />
+      <path d="m3 12 9 5 9-5" />
+      <path d="m3 17 9 5 9-5" />
+    </svg>
+  );
+}
+
 type FeatureGroup = {
   title: string;
   subtitle: string;
@@ -175,9 +185,15 @@ const featureGroups: FeatureGroup[] = [
   },
   {
     title: "本業化を目指す人のための機能",
-    subtitle: "Premiumプラン（¥1,980/月）だけの専属サポート",
+    subtitle: "Standardの全機能をすべて含む ＋ Premium限定サポート（¥1,980/月）",
     badge: "premium",
     items: [
+      {
+        href: "/#pricing",
+        icon: <IconLayers />,
+        title: "Standardプランの全機能",
+        description: "LP診断・AI相談・副業日記・レポート・適性診断・詐欺アラートを、すべてそのまま利用できます",
+      },
       {
         href: "/roadmap",
         icon: <IconRoute />,
