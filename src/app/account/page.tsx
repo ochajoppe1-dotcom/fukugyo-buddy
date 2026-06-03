@@ -2,6 +2,8 @@ import { Suspense } from "react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { createClient as createAdminClient } from "@supabase/supabase-js";
+import { stripe } from "@/lib/stripe";
 import AccountClient from "./AccountClient";
 
 export const dynamic = "force-dynamic";
@@ -17,11 +19,57 @@ export default async function AccountPage() {
   }
 
   // サーバー側でサブスク状態を取得
-  const { data: sub } = await supabase
+  let { data: sub } = await supabase
     .from("subscriptions")
-    .select("plan, status, current_period_end, cancel_at")
+    .select("plan, status, current_period_end, cancel_at, stripe_customer_id")
     .eq("user_id", user.id)
     .maybeSingle();
+
+  // 自己修復同期：DBは有料(active/trialing)なのにStripe側に有効な契約が無ければ free に戻す
+  // （過去のテストデータ残り・webhook取りこぼし対策。Stripeに無ければ課金されないので表示も合わせる）
+  if (
+    sub &&
+    sub.stripe_customer_id &&
+    (sub.status === "active" || sub.status === "trialing") &&
+    sub.plan !== "free"
+  ) {
+    try {
+      const list = await stripe.subscriptions.list({
+        customer: sub.stripe_customer_id as string,
+        status: "all",
+        limit: 10,
+      });
+      const hasLive = list.data.some(
+        (s) => s.status === "active" || s.status === "trialing"
+      );
+      if (!hasLive) {
+        const admin = createAdminClient(
+          process.env.NEXT_PUBLIC_SUPABASE_URL!,
+          process.env.SUPABASE_SERVICE_ROLE_KEY!,
+          { auth: { autoRefreshToken: false, persistSession: false } }
+        );
+        await admin
+          .from("subscriptions")
+          .update({
+            plan: "free",
+            status: "canceled",
+            current_period_end: null,
+            cancel_at: null,
+          })
+          .eq("user_id", user.id);
+        sub = {
+          ...sub,
+          plan: "free",
+          status: "canceled",
+          current_period_end: null,
+          cancel_at: null,
+        };
+      }
+    } catch (e) {
+      console.error("Account Stripe sync error:", e);
+      // Stripe障害時に誤って free にしないよう、失敗時は現状維持
+    }
+  }
 
   const initialSub = sub
     ? {
