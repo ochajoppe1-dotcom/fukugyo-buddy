@@ -11,7 +11,8 @@ export type Feature =
   | "report"
   | "emergency_template"
   | "practical_support"
-  | "roadmap";
+  | "roadmap"
+  | "mentor";
 
 // 機能 × プランの上限定義
 // null = アクセス不可、Infinity = 無制限
@@ -58,6 +59,11 @@ const LIMITS: Record<Feature, Record<Plan, number | null>> = {
     standard: null,
     premium: 1,
   },
+  mentor: {
+    free: null,
+    standard: null,
+    premium: 4, // 週1相当（月4回のチェックイン）
+  },
 };
 
 // プランの日本語ラベル
@@ -77,6 +83,7 @@ export const FEATURE_LABEL: Record<Feature, string> = {
   emergency_template: "緊急時テンプレ生成",
   practical_support: "AI実務サポート",
   roadmap: "AI副業ロードマップ",
+  mentor: "専属AIメンター",
 };
 
 function getMonthKey(d: Date = new Date()): string {

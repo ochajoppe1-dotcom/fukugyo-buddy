@@ -107,6 +107,16 @@ function IconLayers() {
     </svg>
   );
 }
+function IconMentor() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M20 21v-2a4 4 0 0 0-3-3.87" />
+      <path d="M4 21v-2a4 4 0 0 1 3-3.87" />
+      <circle cx="12" cy="7" r="4" />
+      <path d="m19 3 1 2 2 1-2 1-1 2-1-2-2-1 2-1z" />
+    </svg>
+  );
+}
 
 type FeatureGroup = {
   title: string;
@@ -193,6 +203,12 @@ const featureGroups: FeatureGroup[] = [
         icon: <IconLayers />,
         title: "Standardプランの全機能",
         description: "LP診断・AI相談・副業日記・レポート・適性診断・詐欺アラートを、すべてそのまま利用できます",
+      },
+      {
+        href: "/mentor",
+        icon: <IconMentor />,
+        title: "専属AIメンター",
+        description: "日記・相談・診断を踏まえ、AIが毎週あなたに伴走（振り返り＋今週の一手）",
       },
       {
         href: "/roadmap",
