@@ -33,6 +33,33 @@ export default async function AccountPage() {
     (sub.status === "active" || sub.status === "trialing") &&
     sub.plan !== "free"
   ) {
+    // DBを free に同期するヘルパー
+    const syncToFree = async () => {
+      const admin = createAdminClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.SUPABASE_SERVICE_ROLE_KEY!,
+        { auth: { autoRefreshToken: false, persistSession: false } }
+      );
+      await admin
+        .from("subscriptions")
+        .update({
+          plan: "free",
+          status: "canceled",
+          current_period_end: null,
+          cancel_at: null,
+        })
+        .eq("user_id", user.id);
+      sub = sub
+        ? {
+            ...sub,
+            plan: "free",
+            status: "canceled",
+            current_period_end: null,
+            cancel_at: null,
+          }
+        : sub;
+    };
+
     try {
       const list = await stripe.subscriptions.list({
         customer: sub.stripe_customer_id as string,
@@ -43,31 +70,19 @@ export default async function AccountPage() {
         (s) => s.status === "active" || s.status === "trialing"
       );
       if (!hasLive) {
-        const admin = createAdminClient(
-          process.env.NEXT_PUBLIC_SUPABASE_URL!,
-          process.env.SUPABASE_SERVICE_ROLE_KEY!,
-          { auth: { autoRefreshToken: false, persistSession: false } }
-        );
-        await admin
-          .from("subscriptions")
-          .update({
-            plan: "free",
-            status: "canceled",
-            current_period_end: null,
-            cancel_at: null,
-          })
-          .eq("user_id", user.id);
-        sub = {
-          ...sub,
-          plan: "free",
-          status: "canceled",
-          current_period_end: null,
-          cancel_at: null,
-        };
+        // 顧客は存在するが有効な契約が無い → free に同期
+        await syncToFree();
       }
     } catch (e) {
-      console.error("Account Stripe sync error:", e);
-      // Stripe障害時に誤って free にしないよう、失敗時は現状維持
+      // 顧客が本番Stripeに存在しない（古いテスト顧客IDの残り等）= resource_missing
+      // → 有効契約なしとみなして free に同期（これが従来の弱点だった）
+      const code = (e as { code?: string })?.code;
+      if (code === "resource_missing") {
+        await syncToFree();
+      } else {
+        // 一時的なStripe障害などは誤ダウングレードを避けて現状維持
+        console.error("Account Stripe sync error:", e);
+      }
     }
   }
 
