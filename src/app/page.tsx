@@ -1,6 +1,7 @@
 import Link from "next/link";
 import PricingCards from "./components/PricingCards";
 import ReviewPrompt from "./components/ReviewPrompt";
+import Onboarding from "./components/Onboarding";
 
 // シンプルな線アイコン（Lucide風）
 function IconShield() {
@@ -386,6 +387,9 @@ export default function Home() {
           <p className="text-sm text-gray-400">© 2026 副業バディAI</p>
         </div>
       </footer>
+
+      {/* 初回起動時のみ：使い方ウォークスルー（一度見たら出ない） */}
+      <Onboarding />
 
       {/* アプリ版でのみ表示：ストアレビュー誘導（一度閉じたら出ない） */}
       <ReviewPrompt />
