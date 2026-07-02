@@ -29,6 +29,7 @@ export async function GET() {
   const { data: entries, error } = await supabase
     .from("diary_entries")
     .select("entry_date, revenue, expense, work_minutes, memo, created_at")
+    .eq("user_id", user.id) // RLSに加えて明示フィルタ（多層防御）
     .order("entry_date", { ascending: true });
 
   if (error) {

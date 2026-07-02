@@ -1,6 +1,21 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
+import { createClient as createSupabaseAdmin } from "@supabase/supabase-js";
 import { checkUsage, incrementUsage, getUserPlan } from "@/lib/usage";
+
+// 入力ガード（APIコスト暴走防止）
+const MAX_MESSAGE_CHARS = 2000; // 1メッセージの最大文字数
+const MAX_TOTAL_MESSAGES = 40; // リクエストに含められる履歴の最大件数
+const MAX_USER_TURNS = 20; // 1会話あたりのユーザー発言数上限
+
+// サーバー側のセッション管理用（service_role・RLSバイパス）
+function getAdminClient() {
+  return createSupabaseAdmin(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!,
+    { auth: { autoRefreshToken: false, persistSession: false } }
+  );
+}
 
 // 副業バディAI チャット相談のシステムプロンプト
 const SYSTEM_PROMPT = `あなたは「副業バディAI」というサービスのAIアシスタントです。
@@ -96,6 +111,49 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    // conversationId 必須（サーバー側で会話単位の消費を管理するため）
+    if (
+      typeof conversationId !== "string" ||
+      conversationId.length < 1 ||
+      conversationId.length > 64
+    ) {
+      return NextResponse.json(
+        { error: "会話IDが正しくありません" },
+        { status: 400 }
+      );
+    }
+
+    // 入力ガード：履歴件数・1メッセージの文字数（APIコスト暴走防止）
+    if (messages.length > MAX_TOTAL_MESSAGES) {
+      return NextResponse.json(
+        {
+          error: `この会話は長くなりすぎました。新しい相談を開始してください。`,
+          conversation_full: true,
+        },
+        { status: 400 }
+      );
+    }
+    for (const m of messages) {
+      if (
+        !m ||
+        (m.role !== "user" && m.role !== "assistant") ||
+        typeof m.content !== "string"
+      ) {
+        return NextResponse.json(
+          { error: "メッセージが正しくありません" },
+          { status: 400 }
+        );
+      }
+      if (m.content.length > MAX_MESSAGE_CHARS) {
+        return NextResponse.json(
+          {
+            error: `メッセージは${MAX_MESSAGE_CHARS}文字以内でお願いします。`,
+          },
+          { status: 400 }
+        );
+      }
+    }
+
     // ログインユーザー取得
     const supabase = await createClient();
     const {
@@ -116,12 +174,61 @@ export async function POST(req: NextRequest) {
     const isPremium = plan === "premium";
     const isStandardOrAbove = plan === "standard" || plan === "premium";
 
-    // ユーザーメッセージ数をカウント（最初のメッセージ = 新セッション = 1回消費）
     const userMessages = messages.filter(
       (m: { role: string }) => m.role === "user"
     );
-    const isFirstMessage = userMessages.length === 1;
     const latestUserMessage = userMessages[userMessages.length - 1];
+
+    // === サーバー側セッション管理 ===
+    // 「新しい会話かどうか」をクライアント送信の messages 配列ではなく
+    // chat_conversations テーブルで判定する（カウント回避の穴を塞ぐ）
+    const admin = getAdminClient();
+    const { data: convo } = await admin
+      .from("chat_conversations")
+      .select("user_id, message_count")
+      .eq("id", conversationId)
+      .maybeSingle();
+
+    // 他人の会話IDは使えない
+    if (convo && convo.user_id !== user.id) {
+      return NextResponse.json(
+        { error: "この会話にはアクセスできません" },
+        { status: 403 }
+      );
+    }
+
+    // 1会話あたりの発言数上限
+    if (convo && convo.message_count >= MAX_USER_TURNS) {
+      return NextResponse.json(
+        {
+          error: `この会話は上限（${MAX_USER_TURNS}往復）に達しました。新しい相談を開始してください。`,
+          conversation_full: true,
+        },
+        { status: 400 }
+      );
+    }
+
+    const isNewConversation = !convo;
+
+    // 会話の消費記録（成功時に呼ぶ）
+    const recordTurn = async () => {
+      if (isNewConversation) {
+        await incrementUsage(user.id, "ai_chat");
+        await admin.from("chat_conversations").insert({
+          id: conversationId,
+          user_id: user.id,
+          message_count: 1,
+        });
+      } else {
+        await admin
+          .from("chat_conversations")
+          .update({
+            message_count: (convo?.message_count ?? 0) + 1,
+            updated_at: new Date().toISOString(),
+          })
+          .eq("id", conversationId);
+      }
+    };
 
     // Standard 以上：副業日記のサマリーをコンテキストとして取得
     let diaryContext = "";
@@ -129,6 +236,7 @@ export async function POST(req: NextRequest) {
       const { data: entries } = await supabase
         .from("diary_entries")
         .select("entry_date, revenue, expense, work_minutes")
+        .eq("user_id", user.id) // RLSに加えて明示フィルタ（多層防御）
         .order("entry_date", { ascending: false })
         .limit(30);
 
@@ -162,8 +270,8 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // 月次利用回数チェック（最初のメッセージ送信時のみ）
-    if (isFirstMessage) {
+    // 月次利用回数チェック（新しい会話の開始時のみ）
+    if (isNewConversation) {
       const check = await checkUsage(supabase, user.id, "ai_chat");
       if (!check.allowed) {
         return NextResponse.json(
@@ -189,10 +297,8 @@ export async function POST(req: NextRequest) {
       const idx = Math.min(userMessages.length - 1, DEMO_RESPONSES.length - 1);
       const responseText = DEMO_RESPONSES[idx];
 
-      // 最初のメッセージなら消費
-      if (isFirstMessage) {
-        await incrementUsage(user.id, "ai_chat");
-      }
+      // 会話の消費・往復数を記録
+      await recordTurn();
 
       // Premium は履歴保存
       if (isPremium && conversationId && latestUserMessage) {
@@ -239,10 +345,8 @@ export async function POST(req: NextRequest) {
     const claudeData = await claudeRes.json();
     const responseText = claudeData.content?.[0]?.text || "";
 
-    // 最初のメッセージなら消費（応答成功時のみ）
-    if (isFirstMessage) {
-      await incrementUsage(user.id, "ai_chat");
-    }
+    // 会話の消費・往復数を記録（応答成功時のみ）
+    await recordTurn();
 
     // Premium は履歴保存
     if (isPremium && conversationId && latestUserMessage) {

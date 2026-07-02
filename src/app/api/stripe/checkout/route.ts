@@ -38,6 +38,12 @@ export async function POST(req: NextRequest) {
       .eq("user_id", user.id)
       .maybeSingle();
 
+    // 無料トライアルは「初回契約時のみ」。
+    // subscriptions レコードは初回契約完了時に webhook が作るので、
+    // レコードが存在する = 過去に契約歴あり = トライアルなし。
+    // （解約→再契約を繰り返して毎回7日無料になる穴を塞ぐ）
+    const isFirstSubscription = !existingSub;
+
     const origin =
       req.headers.get("origin") ||
       process.env.NEXT_PUBLIC_SITE_URL ||
@@ -72,9 +78,9 @@ export async function POST(req: NextRequest) {
           quantity: 1,
         },
       ],
-      // 初回7日間無料
+      // 無料トライアルは初回契約時のみ（再契約時は即時課金）
       subscription_data: {
-        trial_period_days: 7,
+        ...(isFirstSubscription ? { trial_period_days: 7 } : {}),
         metadata: {
           user_id: user.id,
           plan,

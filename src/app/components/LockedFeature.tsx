@@ -81,7 +81,7 @@ export default function LockedFeature({
       </Link>
 
       <p className="text-xs text-gray-400 mt-4">
-        7日間無料で試せます ／ いつでも解約できます
+        初回7日間無料で試せます ／ いつでも解約できます
       </p>
     </div>
   );

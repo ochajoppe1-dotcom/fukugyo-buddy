@@ -200,6 +200,7 @@ export async function POST(req: NextRequest) {
     const { data: entries } = await supabase
       .from("diary_entries")
       .select("entry_date, revenue, expense, work_minutes, memo")
+      .eq("user_id", user.id) // RLSに加えて明示フィルタ（多層防御）
       .order("entry_date", { ascending: false });
 
     if (!entries || entries.length === 0) {
