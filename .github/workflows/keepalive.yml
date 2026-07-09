@@ -1,10 +1,11 @@
 name: Supabase keepalive
 
 # 無料プランの Supabase は「7日間 DB 無アクセス」で自動停止する。
-# 3日おきに本番の /api/health を叩いて DB に触れさせ、停止を防ぐ。
+# 毎日本番の /api/health を叩いて DB に触れさせ、停止を防ぐ。
+# ※3日おき運用中の2026-07-09にSupabaseから「活動不足・pause予告」メールが来たため毎日に強化。
 on:
   schedule:
-    - cron: "0 3 */3 * *" # 3日ごと 03:00 UTC（=日本時間12:00）
+    - cron: "0 3 * * *" # 毎日 03:00 UTC（=日本時間12:00）
   workflow_dispatch: {} # 手動実行も可能
 
 jobs:
