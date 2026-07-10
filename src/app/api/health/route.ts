@@ -29,9 +29,20 @@ export async function GET() {
       return NextResponse.json({ ok: false, db: "error" }, { status: 500 });
     }
 
+    // 読み取りだけではSupabaseの「活動」判定にカウントされない疑いがあるため
+    // （2026-07-10: 3日おきping成功中にpause発生）、実書き込みも行う。
+    // keepaliveテーブルが未作成でも読み取りが通れば200を返す（writeの結果は返却値で報告）。
+    const { error: writeError } = await admin
+      .from("keepalive")
+      .upsert({ id: 1, pinged_at: new Date().toISOString() });
+    if (writeError) {
+      console.error("[health] keepalive write skipped:", writeError.message);
+    }
+
     return NextResponse.json({
       ok: true,
       db: "up",
+      write: writeError ? "skipped" : "ok",
       ts: new Date().toISOString(),
     });
   } catch (e) {
