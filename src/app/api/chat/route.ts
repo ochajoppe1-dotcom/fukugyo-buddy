@@ -325,6 +325,11 @@ export async function POST(req: NextRequest) {
       body: JSON.stringify({
         model: "claude-sonnet-4-5",
         max_tokens: 1024,
+        // 会話はターンごとに「システム＋全履歴」を再送するため、プロンプトキャッシュで
+        // 再送分を約1/10価格にする（多往復会話のAPIコスト暴騰対策・2026-07-11）。
+        // top-level cache_control は最後のキャッシュ可能ブロックに自動配置され、
+        // 次ターンが直前ターンまでのプレフィックスをキャッシュから読む。
+        cache_control: { type: "ephemeral" },
         system: SYSTEM_PROMPT + diaryContext,
         messages: messages.map((m: { role: string; content: string }) => ({
           role: m.role,
