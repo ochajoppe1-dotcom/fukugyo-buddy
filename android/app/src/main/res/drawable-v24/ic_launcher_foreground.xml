@@ -4,7 +4,12 @@
     android:viewportHeight="108"
     android:viewportWidth="108">
     <!-- 副業バディAI 土＋新芽＋AIスパークマーク -->
-    <!-- 背景は生成り（ic_launcher_background）。内側セーフエリア中心に配置 -->
+    <!-- 背景は生成り（ic_launcher_background）。円形マスクで欠けないよう0.85倍で中央配置 -->
+    <group
+        android:scaleX="0.85"
+        android:scaleY="0.85"
+        android:pivotX="54"
+        android:pivotY="54">
     <!-- 土（茶） -->
     <path
         android:fillColor="#A0653C"
@@ -32,4 +37,5 @@
     <path
         android:fillColor="#FFC107"
         android:pathData="M84,38 L85,41 L88,42 L85,43 L84,46 L83,43 L80,42 L83,41 Z" />
+    </group>
 </vector>
