@@ -46,6 +46,9 @@ export const metadata: Metadata = {
     telephone: false,
   },
   manifest: "/manifest.json",
+  verification: {
+    google: "t4MKyG3Wk-noBMi_75MZQXWaeMUOBs40u684Ret2N3U",
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
