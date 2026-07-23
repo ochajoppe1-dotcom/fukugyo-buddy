@@ -66,21 +66,22 @@ export const metadata: Metadata = {
     title: "副業バディAI - あなたの副業を、AIが伴走します",
     description:
       "副業を始める前のLP診断、実践中のAI相談まで。AI完結の副業安全パートナー。",
+    // ⚠️ OGP画像はPNG/JPGのみ。SVGはX/LINE/Facebookが読まないためカードが画像なしになる
     images: [
       {
-        url: "/icons/icon-512.svg",
-        width: 512,
-        height: 512,
-        alt: "副業バディAI",
+        url: `${SITE_URL}/og/default.png`,
+        width: 1200,
+        height: 630,
+        alt: "副業バディAI - あなたの副業を、AIが伴走します",
       },
     ],
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "副業バディAI",
     description:
       "副業を始める前のLP診断、実践中のAI相談まで。AI完結の副業安全パートナー。",
-    images: ["/icons/icon-512.svg"],
+    images: [`${SITE_URL}/og/default.png`],
   },
   robots: {
     index: true,

@@ -15,14 +15,30 @@ export async function generateMetadata({
   const { slug } = await params;
   const post = getPost(slug);
   if (!post) return { title: "記事が見つかりません" };
+  const siteUrl =
+    process.env.NEXT_PUBLIC_SITE_URL || "https://fukugyo-buddy.vercel.app";
+  const ogImage = `${siteUrl}/og/blog.png`;
   return {
     title: post.title,
     description: post.description,
     keywords: post.keywords,
+    alternates: { canonical: `${siteUrl}/blog/${post.slug}` },
     openGraph: {
       title: post.title,
       description: post.description,
       type: "article",
+      url: `${siteUrl}/blog/${post.slug}`,
+      publishedTime: post.publishedAt,
+      // ⚠️ PNGで指定する（SVGはSNSがOGP画像として読まない）
+      images: [
+        { url: ogImage, width: 1200, height: 630, alt: post.title },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.description,
+      images: [ogImage],
     },
   };
 }
