@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { POSTS } from "./posts";
+import AppInstallBanner from "../components/AppInstallBanner";
 
 export const metadata: Metadata = {
   title: "副業お役立ち記事｜副業バディAI",
@@ -50,6 +51,8 @@ export default function BlogIndexPage() {
               </Link>
             ))}
           </div>
+
+          <AppInstallBanner source="blog_index" className="mt-8" />
         </div>
       </section>
     </main>

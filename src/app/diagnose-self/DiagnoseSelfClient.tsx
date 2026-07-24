@@ -8,6 +8,7 @@ import {
 } from "./checklistData";
 import ShareButtons from "../components/ShareButtons";
 import ReviewPrompt from "../components/ReviewPrompt";
+import AppInstallBanner from "../components/AppInstallBanner";
 
 export default function DiagnoseSelfClient() {
   const [checked, setChecked] = useState<Set<string>>(new Set());
@@ -138,6 +139,9 @@ export default function DiagnoseSelfClient() {
             </li>
           </ul>
         </div>
+
+        {/* 診断を使ってくれた人をアプリへ（Web閲覧時のみ表示） */}
+        <AppInstallBanner source="diagnose_self" />
 
         {/* 診断を終えた直後＝満足度が高い瞬間にだけレビューをお願いする（アプリ版のみ） */}
         <ReviewPrompt variant="completion" />

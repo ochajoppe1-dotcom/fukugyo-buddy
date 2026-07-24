@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { POSTS, getPost } from "../posts";
+import AppInstallBanner from "../../components/AppInstallBanner";
 
 export function generateStaticParams() {
   return POSTS.map((p) => ({ slug: p.slug }));
@@ -140,6 +141,9 @@ export default async function BlogPostPage({
               </svg>
             </Link>
           </div>
+
+          {/* 記事を読み終えた人をアプリへ送る（Web閲覧時のみ表示） */}
+          <AppInstallBanner source="blog" className="mt-4" />
 
           {/* 免責 */}
           <p className="text-xs text-gray-400 leading-relaxed mt-8">
