@@ -7,6 +7,7 @@ import {
   getRiskLabel,
 } from "./checklistData";
 import ShareButtons from "../components/ShareButtons";
+import ReviewPrompt from "../components/ReviewPrompt";
 
 export default function DiagnoseSelfClient() {
   const [checked, setChecked] = useState<Set<string>>(new Set());
@@ -137,6 +138,9 @@ export default function DiagnoseSelfClient() {
             </li>
           </ul>
         </div>
+
+        {/* 診断を終えた直後＝満足度が高い瞬間にだけレビューをお願いする（アプリ版のみ） */}
+        <ReviewPrompt variant="completion" />
       </div>
     );
   }

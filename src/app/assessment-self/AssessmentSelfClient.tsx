@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { questions, calculateResult, type PersonaResult } from "./selfData";
 import ShareButtons from "../components/ShareButtons";
+import ReviewPrompt from "../components/ReviewPrompt";
 
 export default function AssessmentSelfClient() {
   const [step, setStep] = useState(0);
@@ -164,6 +165,9 @@ export default function AssessmentSelfClient() {
         >
           もう一度診断する
         </button>
+
+        {/* 診断を終えた直後＝満足度が高い瞬間にだけレビューをお願いする（アプリ版のみ） */}
+        <ReviewPrompt variant="completion" />
       </div>
     );
   }
