@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { POSTS, getPost } from "../posts";
+import { getRelated } from "../related";
 import AppInstallBanner from "../../components/AppInstallBanner";
 
 export function generateStaticParams() {
@@ -53,8 +54,53 @@ export default async function BlogPostPage({
   const post = getPost(slug);
   if (!post) notFound();
 
+  const related = getRelated(post.slug, 4);
+  const siteUrl =
+    process.env.NEXT_PUBLIC_SITE_URL || "https://fukugyo-buddy.vercel.app";
+
+  // 構造化データ。Google に「これは記事である」と伝える。
+  // ⚠️ 2026-07-31 まで入っていなかった（検索での見え方が弱くなる）。
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        headline: post.title,
+        description: post.description,
+        datePublished: post.publishedAt,
+        dateModified: post.publishedAt,
+        inLanguage: "ja",
+        mainEntityOfPage: `${siteUrl}/blog/${post.slug}`,
+        image: `${siteUrl}/og/blog.png`,
+        author: { "@type": "Organization", name: "副業バディAI" },
+        publisher: {
+          "@type": "Organization",
+          name: "副業バディAI",
+          url: siteUrl,
+        },
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "ホーム", item: siteUrl },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "記事一覧",
+            item: `${siteUrl}/blog`,
+          },
+          { "@type": "ListItem", position: 3, name: post.title },
+        ],
+      },
+    ],
+  };
+
   return (
     <main className="flex-1 flex flex-col">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <header className="border-b border-gray-100 bg-white">
         <div className="max-w-4xl mx-auto px-6 py-4 flex items-center gap-3">
           <Link
@@ -144,6 +190,33 @@ export default async function BlogPostPage({
 
           {/* 記事を読み終えた人をアプリへ送る（Web閲覧時のみ表示） */}
           <AppInstallBanner source="blog" className="mt-4" />
+
+          {/* 関連記事：読者の回遊とSEOの両方に効く。
+              ⚠️ 2026-07-31まで記事同士のリンクが1本も無く、70本が孤立していた。 */}
+          {related.length > 0 && (
+            <nav aria-label="関連記事" className="mt-10">
+              <h2 className="text-base font-bold text-gray-900 mb-3">
+                あわせて読みたい
+              </h2>
+              <ul className="space-y-2">
+                {related.map((r) => (
+                  <li key={r.slug}>
+                    <Link
+                      href={`/blog/${r.slug}`}
+                      className="block bg-white border border-gray-100 rounded-2xl p-4 hover:border-emerald-200 hover:bg-emerald-50/40 transition-colors"
+                    >
+                      <span className="block text-sm font-medium text-gray-900 leading-relaxed">
+                        {r.title}
+                      </span>
+                      <span className="block text-xs text-gray-500 leading-relaxed mt-1">
+                        {r.description.slice(0, 70)}…
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          )}
 
           {/* 免責 */}
           <p className="text-xs text-gray-400 leading-relaxed mt-8">
