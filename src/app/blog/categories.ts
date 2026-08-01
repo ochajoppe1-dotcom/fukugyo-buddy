@@ -70,6 +70,7 @@ const MAP: Record<string, CategoryId> = {
   "illustration-side-job": "jobs",
   "music-bgm-side-job": "jobs",
   "car-side-job": "jobs",
+  "sedori-research-price-data": "jobs",
 
   // お金・税金・契約
   "invoice-system-and-side-jobs": "money",
