@@ -108,6 +108,7 @@ const MAP: Record<string, CategoryId> = {
   "smartphone-only-side-job": "person",
   "homemaker-side-job": "person",
   "senior-side-job": "person",
+  "shift-work-night-shift-side-job": "person",
 };
 
 export function categoryOf(slug: string): CategoryId {
