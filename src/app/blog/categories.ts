@@ -92,6 +92,7 @@ const MAP: Record<string, CategoryId> = {
   "side-job-unpaid-payment": "money",
   "side-job-tax-documents-checklist": "money",
   "side-job-incorporation-timing": "money",
+  "unemployment-benefits-side-job": "money",
 
   // 詐欺・トラブル対策
   "lp-check-27-points": "safety",
