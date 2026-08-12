@@ -96,6 +96,7 @@ const MAP: Record<string, CategoryId> = {
   "side-job-my-number": "money",
   "side-job-work-injury": "money",
   "side-job-and-loan-screening": "money",
+  "side-job-furusato-nozei": "money",
 
   // 詐欺・トラブル対策
   "lp-check-27-points": "safety",
