@@ -2254,6 +2254,7 @@ export const POSTS: BlogPost[] = [
       label: "副業日記で時間と報酬を記録する",
     },
   },
+  {
     slug: "side-job-without-skills",
     title: "スキルがなくても副業はできる？｜未経験から始める副業の選び方",
     description:
