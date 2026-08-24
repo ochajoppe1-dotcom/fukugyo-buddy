@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://fukugyo-buddy.vercel.app/blog</loc><lastmod>2026-08-23</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://fukugyo-buddy.vercel.app/blog</loc><lastmod>2026-08-24</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://fukugyo-buddy.vercel.app/blog/data-entry-side-job</loc><lastmod>2026-06-30</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://fukugyo-buddy.vercel.app/blog/skill-market-side-job</loc><lastmod>2026-06-29</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://fukugyo-buddy.vercel.app/blog/video-editing-side-job</loc><lastmod>2026-06-29</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://fukugyo-buddy.vercel.app/blog/survey-monitor-side-job</loc><lastmod>2026-06-29</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://fukugyo-buddy.vercel.app/blog/web-writer-side-job-start</loc><lastmod>2026-06-29</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://fukugyo-buddy.vercel.app/blog/web-writer-side-job-start</loc><lastmod>2026-08-24</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://fukugyo-buddy.vercel.app/blog/side-job-blog-affiliate-reality</loc><lastmod>2026-06-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://fukugyo-buddy.vercel.app/blog/freelance-vs-side-job</loc><lastmod>2026-06-27</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://fukugyo-buddy.vercel.app/blog/earn-10000-yen-side-job</loc><lastmod>2026-08-21</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
@@ -86,23 +86,23 @@
   <url><loc>https://fukugyo-buddy.vercel.app/blog/side-job-tax-audit</loc><lastmod>2026-08-13</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://fukugyo-buddy.vercel.app/blog/side-job-decline-and-boundaries</loc><lastmod>2026-08-14</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://fukugyo-buddy.vercel.app/blog/side-job-multiple-jobs</loc><lastmod>2026-08-15</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://fukugyo-buddy.vercel.app</loc><lastmod>2026-08-23</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
-  <url><loc>https://fukugyo-buddy.vercel.app/login</loc><lastmod>2026-08-23</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
-  <url><loc>https://fukugyo-buddy.vercel.app/diagnose-self</loc><lastmod>2026-08-23</lastmod><changefreq>weekly</changefreq><priority>0.95</priority></url>
-  <url><loc>https://fukugyo-buddy.vercel.app/assessment-self</loc><lastmod>2026-08-23</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://fukugyo-buddy.vercel.app/diagnose</loc><lastmod>2026-08-23</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
-  <url><loc>https://fukugyo-buddy.vercel.app/chat</loc><lastmod>2026-08-23</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://fukugyo-buddy.vercel.app/diary</loc><lastmod>2026-08-23</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://fukugyo-buddy.vercel.app/assessment</loc><lastmod>2026-08-23</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://fukugyo-buddy.vercel.app/report</loc><lastmod>2026-08-23</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://fukugyo-buddy.vercel.app/alerts</loc><lastmod>2026-08-23</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://fukugyo-buddy.vercel.app/roadmap</loc><lastmod>2026-08-23</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://fukugyo-buddy.vercel.app/support</loc><lastmod>2026-08-23</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://fukugyo-buddy.vercel.app/emergency</loc><lastmod>2026-08-23</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://fukugyo-buddy.vercel.app/help</loc><lastmod>2026-08-23</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
-  <url><loc>https://fukugyo-buddy.vercel.app/contact</loc><lastmod>2026-08-23</lastmod><changefreq>monthly</changefreq><priority>0.4</priority></url>
-  <url><loc>https://fukugyo-buddy.vercel.app/reset-password</loc><lastmod>2026-08-23</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>
-  <url><loc>https://fukugyo-buddy.vercel.app/privacy</loc><lastmod>2026-08-23</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>
-  <url><loc>https://fukugyo-buddy.vercel.app/terms</loc><lastmod>2026-08-23</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>
-  <url><loc>https://fukugyo-buddy.vercel.app/tokushoho</loc><lastmod>2026-08-23</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://fukugyo-buddy.vercel.app</loc><lastmod>2026-08-24</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://fukugyo-buddy.vercel.app/login</loc><lastmod>2026-08-24</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://fukugyo-buddy.vercel.app/diagnose-self</loc><lastmod>2026-08-24</lastmod><changefreq>weekly</changefreq><priority>0.95</priority></url>
+  <url><loc>https://fukugyo-buddy.vercel.app/assessment-self</loc><lastmod>2026-08-24</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://fukugyo-buddy.vercel.app/diagnose</loc><lastmod>2026-08-24</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://fukugyo-buddy.vercel.app/chat</loc><lastmod>2026-08-24</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://fukugyo-buddy.vercel.app/diary</loc><lastmod>2026-08-24</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://fukugyo-buddy.vercel.app/assessment</loc><lastmod>2026-08-24</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://fukugyo-buddy.vercel.app/report</loc><lastmod>2026-08-24</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://fukugyo-buddy.vercel.app/alerts</loc><lastmod>2026-08-24</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://fukugyo-buddy.vercel.app/roadmap</loc><lastmod>2026-08-24</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://fukugyo-buddy.vercel.app/support</loc><lastmod>2026-08-24</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://fukugyo-buddy.vercel.app/emergency</loc><lastmod>2026-08-24</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://fukugyo-buddy.vercel.app/help</loc><lastmod>2026-08-24</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://fukugyo-buddy.vercel.app/contact</loc><lastmod>2026-08-24</lastmod><changefreq>monthly</changefreq><priority>0.4</priority></url>
+  <url><loc>https://fukugyo-buddy.vercel.app/reset-password</loc><lastmod>2026-08-24</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://fukugyo-buddy.vercel.app/privacy</loc><lastmod>2026-08-24</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://fukugyo-buddy.vercel.app/terms</loc><lastmod>2026-08-24</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://fukugyo-buddy.vercel.app/tokushoho</loc><lastmod>2026-08-24</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>
 </urlset>
