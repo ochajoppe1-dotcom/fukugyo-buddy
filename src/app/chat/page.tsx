@@ -11,7 +11,7 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "AI相談 - 副業の悩みを24時間チャット相談",
   description:
-    "副業選び、続け方、辞め時、詐欺被害の相談まで。AIが24時間いつでも答えます。Free月3回・Standard月20回・Premium無制限。",
+    "副業選び、続け方、辞め時、詐欺被害の相談まで。AIが24時間いつでも答えます。Freeはカード登録なしでお試し1回・Standard月10回・Premium月25回。",
 };
 
 type HistoryMessage = {
@@ -106,8 +106,12 @@ export default async function ChatPage() {
         {header}
         <section className="flex-1">
           <LockedFeature
-            featureName={`AI相談（今月の上限 ${usage.limit} 回に到達）`}
-            description="Standard プランなら月20回、Premium プランなら無制限でAI相談が使えます。"
+            featureName={
+              usage.plan === "free"
+                ? "AI相談（無料のお試しはここまで）"
+                : `AI相談（今月の上限 ${usage.limit} 回に到達）`
+            }
+            description="Standard プランなら月10回、Premium プランなら月25回、AI相談が使えます。"
             requiredPlan={usage.plan === "free" ? "Standard" : "Premium"}
           />
         </section>

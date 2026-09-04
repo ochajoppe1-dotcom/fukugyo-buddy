@@ -1,7 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { createClient as createSupabaseAdmin } from "@supabase/supabase-js";
-import { checkUsage, incrementUsage, getUserPlan } from "@/lib/usage";
+import {
+  checkUsage,
+  incrementUsage,
+  getUserPlan,
+  getFreeChatMonthlyTotal,
+  FREE_CHAT_TURNS,
+  FREE_CHAT_MONTHLY_CAP,
+} from "@/lib/usage";
 
 // 入力ガード（APIコスト暴走防止）
 const MAX_MESSAGE_CHARS = 2000; // 1メッセージの最大文字数
@@ -172,6 +179,7 @@ export async function POST(req: NextRequest) {
     // - 会話履歴の永続化：Premium のみ
     const plan = await getUserPlan(supabase, user.id);
     const isPremium = plan === "premium";
+    const isFree = plan === "free";
     const isStandardOrAbove = plan === "standard" || plan === "premium";
 
     const userMessages = messages.filter(
@@ -198,11 +206,16 @@ export async function POST(req: NextRequest) {
     }
 
     // 1会話あたりの発言数上限
-    if (convo && convo.message_count >= MAX_USER_TURNS) {
+    // 🔴 Free はお試しなので短くする（コストの2つ目のフタ）。
+    const turnCap = isFree ? FREE_CHAT_TURNS : MAX_USER_TURNS;
+    if (convo && convo.message_count >= turnCap) {
       return NextResponse.json(
         {
-          error: `この会話は上限（${MAX_USER_TURNS}往復）に達しました。新しい相談を開始してください。`,
+          error: isFree
+            ? `無料のお試しは${turnCap}往復までです。続きは Standardプラン（月¥980）でご利用いただけます。`
+            : `この会話は上限（${turnCap}往復）に達しました。新しい相談を開始してください。`,
           conversation_full: true,
+          plan,
         },
         { status: 400 }
       );
@@ -212,6 +225,11 @@ export async function POST(req: NextRequest) {
 
     // 会話の消費記録（成功時に呼ぶ）
     const recordTurn = async () => {
+      // Free は「会話数」と別に「メッセージ数」も数える。
+      // 全ユーザー分の合計が月間上限の判定に使われる。
+      if (isFree) {
+        await incrementUsage(user.id, "ai_chat_free_msg");
+      }
       if (isNewConversation) {
         await incrementUsage(user.id, "ai_chat");
         await admin.from("chat_conversations").insert({
@@ -270,6 +288,24 @@ export async function POST(req: NextRequest) {
       }
     }
 
+    // 🔴 3つ目のフタ：Free 全員合計の月間メッセージ上限。
+    // 何人来ても、ここで API コストが必ず頭打ちになる。
+    // （会話の途中でも見る。新規会話だけだと途中から上限をすり抜けられる）
+    if (isFree) {
+      const freeTotal = await getFreeChatMonthlyTotal();
+      if (freeTotal >= FREE_CHAT_MONTHLY_CAP) {
+        return NextResponse.json(
+          {
+            error:
+              "今月の無料お試し枠がいっぱいになりました。来月または Standardプラン（月¥980）でご利用ください。",
+            limit_exceeded: true,
+            plan,
+          },
+          { status: 403 }
+        );
+      }
+    }
+
     // 月次利用回数チェック（新しい会話の開始時のみ）
     if (isNewConversation) {
       const check = await checkUsage(supabase, user.id, "ai_chat");
@@ -277,9 +313,11 @@ export async function POST(req: NextRequest) {
         return NextResponse.json(
           {
             error:
-              check.reason === "limit_exceeded"
-                ? `今月のAI相談は上限（${check.limit}回）に達しました。プランをアップグレードしてください。`
-                : "このプランではAI相談をご利用いただけません。",
+              check.reason !== "limit_exceeded"
+                ? "このプランではAI相談をご利用いただけません。"
+                : isFree
+                  ? "無料のお試し（1回）はここまでです。続きは Standardプラン（月¥980・月10回）でご利用いただけます。"
+                  : `今月のAI相談は上限（${check.limit}回）に達しました。プランをアップグレードしてください。`,
             limit_exceeded: true,
             plan: check.plan,
             used: check.used,

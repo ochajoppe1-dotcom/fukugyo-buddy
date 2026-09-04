@@ -149,6 +149,12 @@ const featureGroups: FeatureGroup[] = [
         title: "適性診断（パターン判定版）",
         description: "15問の回答からあなたに向いた副業タイプを判定",
       },
+      {
+        href: "/chat",
+        icon: <IconMessage />,
+        title: "AI相談（お試し1回）",
+        description: "カード登録なし。5往復まで、副業の悩みをAIに相談できます",
+      },
     ],
   },
   {
@@ -166,7 +172,7 @@ const featureGroups: FeatureGroup[] = [
         href: "/chat",
         icon: <IconMessage />,
         title: "AI相談",
-        description: "副業の悩みを24時間チャット（Std月10/Prm月25）",
+        description: "副業の悩みを24時間チャット（1会話20往復・Std月10/Prm月25）",
       },
       {
         href: "/diary",
